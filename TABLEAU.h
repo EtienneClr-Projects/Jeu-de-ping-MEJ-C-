@@ -10,11 +10,14 @@
 using namespace std;
 
 class TABLEAU {
+    bool verif_impair_cases_autour(int x, int y);
 
-    std::vector<std::vector<bool>> tableau = {{true, true, true, false},
-                                              {true, true, true, false},
-                                              {true, true, false, true},
-                                              {false, false, true, true}};
+    int compter_demandes_pour(int x, int y);
+
+    std::vector<std::vector<bool>> tableau = {{false, true, true, false},
+                                              {false, false, false, false},
+                                              {false, false, false, false},
+                                              {false, false, false, false}};
 
     int taille;
 public:
@@ -30,7 +33,7 @@ public:
 
     vector<vector<bool>> get_tab();
 
-    bool verif_impair_cases_autour(int x, int y);
+    vector<int> compter_demandes_pour_ligne(int y);
 };
 
 

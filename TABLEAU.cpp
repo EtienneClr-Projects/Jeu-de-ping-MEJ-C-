@@ -65,7 +65,7 @@ bool TABLEAU::verif_impair_cases_autour(int x, int y) {
         if (y < n - 1)
             total += int(this->tableau.at(y + 1).at(x - 1));
     }
-    if (x < n-1) {
+    if (x < n - 1) {
         if (y > 0)
             total += int(this->tableau.at(y - 1).at(x + 1));
         total += int(this->tableau.at(y).at(x + 1));
@@ -78,5 +78,22 @@ bool TABLEAU::verif_impair_cases_autour(int x, int y) {
         total += int(this->tableau.at(y + 1).at(x));
 
     return total % 2 == 0;
-
 }
+
+int TABLEAU::compter_demandes_pour(int x, int y) {
+    int total = 0;
+    if (x > 0) total += verif_impair_cases_autour(x - 1, y - 1);
+    total += verif_impair_cases_autour(x, y - 1);
+    if (x < n - 1) total += verif_impair_cases_autour(x + 1, y - 1);
+    return total;
+}
+
+vector<int> TABLEAU::compter_demandes_pour_ligne(int y) {
+    vector<int> demandes_sur_la_ligne;
+    demandes_sur_la_ligne.reserve(n);
+    for (int x = 0; x < n; ++x) {
+        demandes_sur_la_ligne.push_back(compter_demandes_pour(x, y));
+    }
+    return demandes_sur_la_ligne;
+}
+

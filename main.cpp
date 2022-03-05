@@ -4,7 +4,10 @@
 int main() {
     TABLEAU tableau1;
     tableau1.print_tab();
-    cout << "resultat : " << tableau1.verif_impair_cases_autour(3, 0);
+    for (int i: tableau1.compter_demandes_pour_ligne(1)) {
+        cout << i << " ";
+    }
+    cout << "\n";
 
     return 0;
 }
