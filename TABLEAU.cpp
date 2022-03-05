@@ -3,12 +3,15 @@
 //
 #include <iostream>
 #include "TABLEAU.h"
-#include <utility>
 #include <vector>
 
 using namespace std;
 
-void TABLEAU::init(int t, std::vector<std::vector<bool>> init_tableau) {
+TABLEAU::TABLEAU(int t, vector<vector<bool>> init_tableau) {
+    vector<bool> init_ligne(n, false);
+    for (int i = 0; i < n; i++)
+        this->tableau.push_back(init_ligne);
+
     for (int y = 0; y < n; ++y) {
         for (int x = 0; x < n; ++x) {
             this->tableau[y][x] = init_tableau[y][x];
@@ -36,9 +39,9 @@ void TABLEAU::print_tab() {
     cout << &this->tableau << "\n";
 }
 
-void TABLEAU::set_copy_tab(vector<vector<bool>> copied_tab) {
-    this->tableau = std::move(copied_tab);
-}
+//void TABLEAU::set_copy_tab(vector<vector<bool>> copied_tab) {
+//    this->tableau = std::move(copied_tab);
+//}
 
 vector<vector<bool>> TABLEAU::get_tab() {
     return this->tableau;
