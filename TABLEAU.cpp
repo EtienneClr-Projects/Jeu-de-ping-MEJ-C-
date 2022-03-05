@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "TABLEAU.h"
+#include <utility>
 #include <vector>
 
 using namespace std;
@@ -35,15 +36,8 @@ void TABLEAU::print_tab() {
     cout << &this->tableau << "\n";
 }
 
-void TABLEAU::set_copy_tab(vector<vector<bool>> copied_tab) {//todo y'a ptet pas besoin de copier en fait
-    std::vector<std::vector<bool>> newTab;
-    for (int y = 0; y < n; ++y) {
-        std::vector<bool> inter;
-        inter.reserve(n);
-        for (int x = 0; x < n; ++x) {
-            inter.push_back(copied_tab.at(y).at(x));
-        }
-    }
+void TABLEAU::set_copy_tab(vector<vector<bool>> copied_tab) {
+    this->tableau = std::move(copied_tab);
 }
 
 vector<vector<bool>> TABLEAU::get_tab() {
