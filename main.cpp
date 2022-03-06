@@ -1,11 +1,29 @@
 #include <iostream>
-#include "TABLEAU.h"
 #include "Ping.h"
 #include <ctime>
 
-vector<TABLEAU> suppr_doublons(const vector<TABLEAU>& tabs);
+vector<TABLEAU> suppr_doublons(const vector<TABLEAU> &tabs);
 
 int main() {
+    //todo TESTS ONLY
+//
+//    vector<bool> init_ligne(n, false);
+//    vector<vector<bool>> grille(n, init_ligne);
+//    TABLEAU testTab(n, grille);
+//    testTab.print_tab();
+////    int *dem = testTab.compter_demandes_pour_ligne(1);
+////    for (int i = 0; i < n; ++i) {
+////        if (i == 4)
+////            dem[i] = 9;
+////        cout << dem[i] << "\n";
+////    }
+////    cout << "max = " << max_liste(dem) << "\n";
+////    cout << "firstInd = " << trouver_premier_index_de(3, dem) << "\n";
+////    cout << "compter = " << compter_nombre_de(dem, 2) << "\n";
+//    TABLEAU newTab(n,testTab.get_tab());
+//    newTab.print_tab();
+//    return 0;
+
     //initialisation de la premiere solution
 //    vector<bool> solution_test = {false, true, true, true};
     vector<vector<bool>> solutions_init = generate_sol_init();
@@ -13,7 +31,7 @@ int main() {
     time(&start);
 //    for (vector<bool> solution: solutions_init) {
     vector<bool> solution = {true, false, false, false, false,
-                             true};//6x6 cette solution, on a 3200 générations qui donnent la solution..comment réduire?
+                             true};//6x6 cette solution,12s pour 1/36 on a 3200 générations qui donnent la solution..comment réduire?
 
     vector<bool> init_ligne(n, false);
     vector<vector<bool>> grille(n, init_ligne);

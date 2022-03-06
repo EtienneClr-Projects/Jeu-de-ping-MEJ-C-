@@ -1,12 +1,11 @@
 //
 // Created by etienne on 04/03/2022.
 //
-#include <vector>
-
 #ifndef JEUDEPINGMEJ_TABLEAU_H
 #define JEUDEPINGMEJ_TABLEAU_H
 
-#define n 6 //doit être >2
+#include <vector>
+#define n 4 //doit être >2
 using namespace std;
 
 class TABLEAU {
@@ -30,7 +29,7 @@ public:
 
     vector<vector<bool>> get_tab();
 
-    vector<int> compter_demandes_pour_ligne(int y);
+    int* compter_demandes_pour_ligne(int y);
 
     TABLEAU(int t, std::vector<std::vector<bool>> init_tableau);
 };

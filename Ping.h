@@ -14,11 +14,11 @@ std::vector<std::vector<bool>> generate_sol_init();
 
 void algorithme(TABLEAU tableau, int indice_ligne_en_cours);
 
-int max_liste(const vector<int> &vector1);
+int max_liste(const int *list);
 
-int compter_nombre_de(const vector<int> &vector1, int value);
+int compter_nombre_de(const int *list, int value);
 
-int trouver_premier_index_de(int value, const vector<int> &vector);
+int trouver_premier_index_de(int value, const int liste[n]);
 
 int get_nombre_de_resolus();
 vector<TABLEAU> get_solutions_resolues();
