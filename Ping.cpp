@@ -82,7 +82,7 @@ int compter_nombre_de(const int *list, int value) {
     return nb;
 }
 
-int trouver_premier_index_de(int value, const int * liste) {
+int trouver_premier_index_de(int value, const int *liste) {
     for (int i = 0; i < n; i++) {
         if (liste[i] == value) {
             return i;
@@ -112,6 +112,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
             somme += ((tableau.get(i, indice_ligne_en_cours) + 1) % 2) * demandes_sur_cette_ligne[i];
         }
         if (somme == 0) {
+            free(demandes_sur_cette_ligne);
 //            cout << "on a deja clique partout\n";
             return; //on a déjà cliqué a tous les endroits possibles
         } else {// on a pas encore satisfait toutes les demandes_sur_cette_ligne
@@ -126,6 +127,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
 //                    TABLEAU newTab(n, tableau.get_tab());
                     tableau.set(indice_to_clic, indice_ligne_en_cours, true);
                     algorithme(tableau, indice_ligne_en_cours);
+                    free(demandes_sur_cette_ligne);
                     return;
                 }
             } else {
@@ -141,6 +143,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
                         algorithme(newTab, indice_ligne_en_cours);
                     }
                 }
+                free(demandes_sur_cette_ligne);
                 return;
             }
         }
@@ -151,16 +154,21 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
             // si la dernière ligne est pas ok, on s'arrête, sinon on affiche le tableau final
             if (compter_nombre_de(demandes_sur_bordure_bas, 0) != n) {//derniere ligne non complete
 //                cout << "NON RESOLVABLE\n";
+                free(demandes_sur_bordure_bas);
+                free(demandes_sur_cette_ligne);
                 return;
             } else {//derniere ligne complete
 //                cout << "RESOLVAAAABLE\n";
                 nombre_de_resolus++;
                 solutions_resolues.push_back(tableau);
+                free(demandes_sur_bordure_bas);
+                free(demandes_sur_cette_ligne);
                 return;
             }
         } else {//sinon on passe à la ligne suivante
 //            cout << "on passe à la ligne suivante\n";
             algorithme(tableau, indice_ligne_en_cours + 1);
+            free(demandes_sur_cette_ligne);
             return;
         }
     }

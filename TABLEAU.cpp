@@ -7,14 +7,10 @@
 
 using namespace std;
 
-TABLEAU::TABLEAU(int t, vector<vector<bool>> init_tableau) {
-    vector<bool> init_ligne(n, false);
-    for (int i = 0; i < n; i++)
-        this->tableau.push_back(init_ligne);
-
+TABLEAU::TABLEAU(int t, const bool *init_tableau) {
     for (int y = 0; y < n; ++y) {
         for (int x = 0; x < n; ++x) {
-            this->tableau[y][x] = init_tableau[y][x];
+            this->tableau[y][x] = init_tableau[y * n + x];
         }
     }
     this->taille = t;
@@ -29,9 +25,9 @@ void TABLEAU::set(int x, int y, bool val) {
 }
 
 void TABLEAU::print_tab() {
-    for (const std::vector<bool> &ligne: this->tableau) {
+    for (auto & y : this->tableau) {
         string contenu_ligne;
-        for (const bool &x: ligne) {
+        for (bool x : y) {
             contenu_ligne += to_string(x) + " ";
         }
         cout << contenu_ligne << endl;
@@ -43,8 +39,8 @@ void TABLEAU::print_tab() {
 //    this->tableau = std::move(copied_tab);
 //}
 
-vector<vector<bool>> TABLEAU::get_tab() {
-    return this->tableau;
+bool * TABLEAU::get_tab() {
+    return &this->tableau[0][0];
 }
 
 /**
@@ -57,22 +53,22 @@ bool TABLEAU::verif_impair_cases_autour(int x, int y) {
     int total = 0;
     if (x > 0) {
         if (y > 0)
-            total += int(this->tableau.at(y - 1).at(x - 1));
-        total += int(this->tableau.at(y).at(x - 1));
+            total += int(this->tableau[y - 1][x - 1]);
+        total += int(this->tableau[y][x - 1]);
         if (y < n - 1)
-            total += int(this->tableau.at(y + 1).at(x - 1));
+            total += int(this->tableau[y + 1][x - 1]);
     }
     if (x < n - 1) {
         if (y > 0)
-            total += int(this->tableau.at(y - 1).at(x + 1));
-        total += int(this->tableau.at(y).at(x + 1));
+            total += int(this->tableau[y - 1][x + 1]);
+        total += int(this->tableau[y][x + 1]);
         if (y < n - 1)
-            total += int(this->tableau.at(y + 1).at(x + 1));
+            total += int(this->tableau[y + 1][x + 1]);
     }
     if (y > 0)
-        total += int(this->tableau.at(y - 1).at(x));
+        total += int(this->tableau[y - 1][x]);
     if (y < n - 1)
-        total += int(this->tableau.at(y + 1).at(x));
+        total += int(this->tableau[y + 1][x]);
 
     return total % 2 == 0;
 }
