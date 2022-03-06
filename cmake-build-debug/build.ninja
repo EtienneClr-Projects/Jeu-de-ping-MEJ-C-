@@ -62,19 +62,19 @@ build cmake_object_order_depends_target_JeuDePingMEJ: phony || CMakeFiles/JeuDeP
 
 build CMakeFiles/JeuDePingMEJ.dir/main.cpp.obj: CXX_COMPILER__JeuDePingMEJ_Debug C$:/Users/etienne/CLionProjects/JeuDePingMEJ/main.cpp || cmake_object_order_depends_target_JeuDePingMEJ
   DEP_FILE = CMakeFiles\JeuDePingMEJ.dir\main.cpp.obj.d
-  FLAGS = -g -std=gnu++14
+  FLAGS = -g
   OBJECT_DIR = CMakeFiles\JeuDePingMEJ.dir
   OBJECT_FILE_DIR = CMakeFiles\JeuDePingMEJ.dir
 
 build CMakeFiles/JeuDePingMEJ.dir/Ping.cpp.obj: CXX_COMPILER__JeuDePingMEJ_Debug C$:/Users/etienne/CLionProjects/JeuDePingMEJ/Ping.cpp || cmake_object_order_depends_target_JeuDePingMEJ
   DEP_FILE = CMakeFiles\JeuDePingMEJ.dir\Ping.cpp.obj.d
-  FLAGS = -g -std=gnu++14
+  FLAGS = -g
   OBJECT_DIR = CMakeFiles\JeuDePingMEJ.dir
   OBJECT_FILE_DIR = CMakeFiles\JeuDePingMEJ.dir
 
 build CMakeFiles/JeuDePingMEJ.dir/TABLEAU.cpp.obj: CXX_COMPILER__JeuDePingMEJ_Debug C$:/Users/etienne/CLionProjects/JeuDePingMEJ/TABLEAU.cpp || cmake_object_order_depends_target_JeuDePingMEJ
   DEP_FILE = CMakeFiles\JeuDePingMEJ.dir\TABLEAU.cpp.obj.d
-  FLAGS = -g -std=gnu++14
+  FLAGS = -g
   OBJECT_DIR = CMakeFiles\JeuDePingMEJ.dir
   OBJECT_FILE_DIR = CMakeFiles\JeuDePingMEJ.dir
 

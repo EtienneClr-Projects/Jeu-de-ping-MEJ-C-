@@ -5,7 +5,7 @@
 #define JEUDEPINGMEJ_TABLEAU_H
 
 #include <vector>
-#define n 4 //doit être >2
+#define n 6 //doit être >2
 using namespace std;
 
 class TABLEAU {
@@ -29,7 +29,7 @@ public:
 
     vector<vector<bool>> get_tab();
 
-    int* compter_demandes_pour_ligne(int y);
+    vector<int>  compter_demandes_pour_ligne(int y);
 
     TABLEAU(int t, std::vector<std::vector<bool>> init_tableau);
 };

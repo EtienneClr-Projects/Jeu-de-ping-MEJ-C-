@@ -64,7 +64,7 @@ bool are_tabs_equal(TABLEAU tab1, TABLEAU tab2) {
 }
 
 
-int max_liste(const int *list) {
+int max_liste(vector<int> list) {
     int max = 0;
     for (int i = 0; i < n; i++) {
         if (list[i] > max)
@@ -73,7 +73,7 @@ int max_liste(const int *list) {
     return max;
 }
 
-int compter_nombre_de(const int *list, int value) {
+int compter_nombre_de(vector<int> list, int value) {
     int nb = 0;
     for (int i = 0; i < n; i++) {
         if (list[i] == value)
@@ -82,7 +82,7 @@ int compter_nombre_de(const int *list, int value) {
     return nb;
 }
 
-int trouver_premier_index_de(int value, const int *liste) {
+int trouver_premier_index_de(int value, vector<int> liste) {
     for (int i = 0; i < n; i++) {
         if (liste[i] == value) {
             return i;
@@ -92,10 +92,10 @@ int trouver_premier_index_de(int value, const int *liste) {
 }
 
 void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
-    cout << "on commence en " << indice_ligne_en_cours << "pointeur du tab= "<<&tableau<<"\n";
+//    cout << "on commence en " << indice_ligne_en_cours << "pointeur du tab= " << &tableau << "\n";
     //on calcule les demandes pour la ligne actuelle
 //    tableau.print_tab();
-    int *demandes_sur_cette_ligne = tableau.compter_demandes_pour_ligne(indice_ligne_en_cours);
+    vector<int> demandes_sur_cette_ligne = tableau.compter_demandes_pour_ligne(indice_ligne_en_cours);
 //    cout << "demandes sur ligne actuelle ";
 //    for (int i = 0; i < n; ++i) {
 //        cout << demandes_sur_cette_ligne[i] << " ";
@@ -105,24 +105,24 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
     //si y'a des demandes
 
     if (val_max > 0) {
-        cout << "DEMANDES\n";
+//        cout << "DEMANDES\n";
         // si on a déjà cliqué à tous les endroits où y'a des demandes, on s'arrête
         int somme = 0;
         for (int i = 0; i < n; i++) {
             somme += ((tableau.get(i, indice_ligne_en_cours) + 1) % 2) * demandes_sur_cette_ligne[i];
         }
         if (somme == 0) {
-            cout << "on a deja clique partout\n";
+//            cout << "on a deja clique partout\n";
             return; //on a déjà cliqué a tous les endroits possibles
         } else {// on a pas encore satisfait toutes les demandes_sur_cette_ligne
             int nb_demandes_max = compter_nombre_de(demandes_sur_cette_ligne, val_max);
-            cout << "pas encore clique partout\n";
+//            cout << "pas encore clique partout\n";
             if (nb_demandes_max == 1) {
                 //si on a une demande maximale unique, on clique dessus et on lance un nouvel algo
                 int indice_to_clic = trouver_premier_index_de(val_max, demandes_sur_cette_ligne);
                 if (!tableau.get(indice_to_clic,
                                  indice_ligne_en_cours)) {// et que l'on a pas encore cliqué à cet endroit
-                    cout << "demande unique, on clique en " << indice_to_clic << " " << indice_ligne_en_cours << "\n";
+//                    cout << "demande unique, on clique en " << indice_to_clic << " " << indice_ligne_en_cours << "\n";
 //                    TABLEAU newTab(n, tableau.get_tab());
                     tableau.set(indice_to_clic, indice_ligne_en_cours, true);
                     algorithme(tableau, indice_ligne_en_cours);
@@ -130,11 +130,11 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
                 }
             } else {
                 // si on a plusieurs demandes maximales, on relance l'algo sur chaque demande_sur_cette_ligne
-                cout << "plusieurs demandes max\n";
+//                cout << "plusieurs demandes max\n";
                 for (int i = 0; i < n; i++) {
                     if (demandes_sur_cette_ligne[i] != 0 and tableau.get(i, indice_ligne_en_cours) == 0) {
-                        cout << "on relance l'algo sur " << i << " " << indice_ligne_en_cours << "\n";
-                        tableau.print_tab();
+//                        cout << "on relance l'algo sur " << i << " " << indice_ligne_en_cours << "\n";
+//                        tableau.print_tab();
                         TABLEAU newTab(n, tableau.get_tab());
 //                        cout << "TEST\n";
                         newTab.set(i, indice_ligne_en_cours, true);
@@ -145,9 +145,9 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
             }
         }
     } else {//y'a plus de demandes
-        cout << "PLUS DE DEMANDES\n";
+//        cout << "PLUS DE DEMANDES\n";
         if (indice_ligne_en_cours == n - 1) {//si on est a la dernière ligne
-            int *demandes_sur_bordure_bas = tableau.compter_demandes_pour_ligne(n);
+            vector<int> demandes_sur_bordure_bas = tableau.compter_demandes_pour_ligne(n);
             // si la dernière ligne est pas ok, on s'arrête, sinon on affiche le tableau final
             if (compter_nombre_de(demandes_sur_bordure_bas, 0) != n) {//derniere ligne non complete
 //                cout << "NON RESOLVABLE\n";
@@ -159,7 +159,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
                 return;
             }
         } else {//sinon on passe à la ligne suivante
-            cout << "on passe à la ligne suivante\n";
+//            cout << "on passe à la ligne suivante\n";
             algorithme(tableau, indice_ligne_en_cours + 1);
             return;
         }

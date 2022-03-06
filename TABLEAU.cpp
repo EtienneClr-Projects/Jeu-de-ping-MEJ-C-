@@ -18,7 +18,6 @@ TABLEAU::TABLEAU(int t, vector<vector<bool>> init_tableau) {
         }
     }
     this->taille = t;
-    this->print_tab();
 }
 
 bool TABLEAU::get(int x, int y) {
@@ -86,8 +85,8 @@ int TABLEAU::compter_demandes_pour(int x, int y) {
     return total;
 }
 
-int *TABLEAU::compter_demandes_pour_ligne(int y) {
-    int *demandes_sur_la_ligne = (int*) malloc(sizeof(int));
+vector<int> TABLEAU::compter_demandes_pour_ligne(int y) {
+    vector<int> demandes_sur_la_ligne(n, 0);// = (int *) malloc(sizeof(int));
     for (int x = 0; x < n; ++x) {
         demandes_sur_la_ligne[x] = compter_demandes_pour(x, y);
     }
