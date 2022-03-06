@@ -64,7 +64,7 @@ bool are_tabs_equal(TABLEAU tab1, TABLEAU tab2) {
 }
 
 
-int max_liste(vector<int> list) {
+int max_liste(const int *list) {
     int max = 0;
     for (int i = 0; i < n; i++) {
         if (list[i] > max)
@@ -73,7 +73,7 @@ int max_liste(vector<int> list) {
     return max;
 }
 
-int compter_nombre_de(vector<int> list, int value) {
+int compter_nombre_de(const int *list, int value) {
     int nb = 0;
     for (int i = 0; i < n; i++) {
         if (list[i] == value)
@@ -82,7 +82,7 @@ int compter_nombre_de(vector<int> list, int value) {
     return nb;
 }
 
-int trouver_premier_index_de(int value, vector<int> liste) {
+int trouver_premier_index_de(int value, const int * liste) {
     for (int i = 0; i < n; i++) {
         if (liste[i] == value) {
             return i;
@@ -95,7 +95,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
 //    cout << "on commence en " << indice_ligne_en_cours << "pointeur du tab= " << &tableau << "\n";
     //on calcule les demandes pour la ligne actuelle
 //    tableau.print_tab();
-    vector<int> demandes_sur_cette_ligne = tableau.compter_demandes_pour_ligne(indice_ligne_en_cours);
+    int *demandes_sur_cette_ligne = tableau.compter_demandes_pour_ligne(indice_ligne_en_cours);
 //    cout << "demandes sur ligne actuelle ";
 //    for (int i = 0; i < n; ++i) {
 //        cout << demandes_sur_cette_ligne[i] << " ";
@@ -147,7 +147,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
     } else {//y'a plus de demandes
 //        cout << "PLUS DE DEMANDES\n";
         if (indice_ligne_en_cours == n - 1) {//si on est a la dernière ligne
-            vector<int> demandes_sur_bordure_bas = tableau.compter_demandes_pour_ligne(n);
+            int *demandes_sur_bordure_bas = tableau.compter_demandes_pour_ligne(n);
             // si la dernière ligne est pas ok, on s'arrête, sinon on affiche le tableau final
             if (compter_nombre_de(demandes_sur_bordure_bas, 0) != n) {//derniere ligne non complete
 //                cout << "NON RESOLVABLE\n";

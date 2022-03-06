@@ -85,8 +85,8 @@ int TABLEAU::compter_demandes_pour(int x, int y) {
     return total;
 }
 
-vector<int> TABLEAU::compter_demandes_pour_ligne(int y) {
-    vector<int> demandes_sur_la_ligne(n, 0);// = (int *) malloc(sizeof(int));
+int *TABLEAU::compter_demandes_pour_ligne(int y) {
+    int *demandes_sur_la_ligne = (int *) malloc(n * sizeof(int));
     for (int x = 0; x < n; ++x) {
         demandes_sur_la_ligne[x] = compter_demandes_pour(x, y);
     }

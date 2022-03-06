@@ -29,7 +29,7 @@ public:
 
     vector<vector<bool>> get_tab();
 
-    vector<int>  compter_demandes_pour_ligne(int y);
+    int* compter_demandes_pour_ligne(int y);
 
     TABLEAU(int t, std::vector<std::vector<bool>> init_tableau);
 };
