@@ -6,12 +6,10 @@
 
 #include <vector>
 
-#define n 7 //doit être >2
+#define n 4 //doit être >2
 using namespace std;
 
 class TABLEAU {
-
-    bool verif_impair_cases_autour(int x, int y);
 
     int compter_demandes_pour(int x, int y);
 
@@ -33,6 +31,8 @@ public:
     int *compter_demandes_pour_ligne(int y);
 
     TABLEAU(int t, const bool *init_tableau);
+
+    bool verif_impair_cases_autour(int x, int y);
 };
 
 

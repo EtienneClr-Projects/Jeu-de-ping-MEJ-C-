@@ -3,6 +3,13 @@
 #include <ctime>
 #include <chrono>
 
+/*
+ * 4x4 : 10     solutions   :     0.009s
+ * 5x5 : 0      solution    :     0.038s
+ * 6x6 : 1      solution    :     5.4s
+ * 7x7 : 0      solution    :     719s
+ */
+
 using std::chrono::milliseconds;
 
 vector<TABLEAU> suppr_doublons(const vector<TABLEAU> &tabs);
@@ -52,7 +59,7 @@ int main() {
 
         //creation du tableau et appel à l'algorithme
         TABLEAU firstTab(n, &grille[0][0]);
-        cout << "Branche " << i;
+        cout << "Branche " << i<<"\n";
         i++;
         algorithme(firstTab, 1);
         auto now = std::chrono::duration_cast<milliseconds>(
@@ -72,7 +79,7 @@ int main() {
     for (TABLEAU tab: solutions_resolues_sans_doublons) {
         tab.print_tab();
         cout << "\n";
-    }
+    }//TODO @ETIENNE LES DERNIERES MODIFS MARCHENT PAS ! TESTER EN LANCANT LE 4X4
 
     cout << "get_nombre_de_resolus()" << " : " << solutions_resolues_sans_doublons.size() << " pour "
          << solutions_init.size() << "\n";

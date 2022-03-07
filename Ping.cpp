@@ -150,18 +150,19 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
     } else {//y'a plus de demandes
 //        cout << "PLUS DE DEMANDES\n";
         if (indice_ligne_en_cours == n - 1) {//si on est a la dernière ligne
-            int *demandes_sur_bordure_bas = tableau.compter_demandes_pour_ligne(n);
+            int total_pas_ok_ligne_du_bas = 0;
+            for (int m = 0; m < n; ++m) {
+                if (tableau.verif_impair_cases_autour(m, n - 1))
+                    total_pas_ok_ligne_du_bas++;
+            }
             // si la dernière ligne est pas ok, on s'arrête, sinon on affiche le tableau final
-            if (compter_nombre_de(demandes_sur_bordure_bas, 0) != n) {//derniere ligne non complete
-//                cout << "NON RESOLVABLE\n";
-                free(demandes_sur_bordure_bas);
+            if (total_pas_ok_ligne_du_bas == n) {//derniere ligne non complete
                 free(demandes_sur_cette_ligne);
                 return;
             } else {//derniere ligne complete
 //                cout << "RESOLVAAAABLE\n";
                 nombre_de_resolus++;
                 solutions_resolues.push_back(tableau);
-                free(demandes_sur_bordure_bas);
                 free(demandes_sur_cette_ligne);
                 return;
             }
