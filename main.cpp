@@ -3,11 +3,18 @@
 #include <ctime>
 #include <chrono>
 
-/*
+/* With FLAG -O3. tout en vecteurs je crois. release mode
  * 4x4 : 10     solutions   :     0.009s
  * 5x5 : 0      solution    :     0.038s
  * 6x6 : 1      solution    :     5.4s
  * 7x7 : 0      solution    :     719s
+ */
+
+/* With FLAG -O3. tout en []. release mode
+ * 4x4 : 10     solutions   :     0.s
+ * 5x5 : 0      solution    :     0.s
+ * 6x6 : 1      solution    :     s
+ * 7x7 : 0      solution    :     s
  */
 
 using std::chrono::milliseconds;

@@ -156,7 +156,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
                     total_pas_ok_ligne_du_bas++;
             }
             // si la dernière ligne est pas ok, on s'arrête, sinon on affiche le tableau final
-            if (total_pas_ok_ligne_du_bas == n) {//derniere ligne non complete
+            if (total_pas_ok_ligne_du_bas > 0) {//derniere ligne non complete
                 free(demandes_sur_cette_ligne);
                 return;
             } else {//derniere ligne complete
