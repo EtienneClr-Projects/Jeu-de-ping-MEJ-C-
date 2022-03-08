@@ -13,15 +13,6 @@ TABLEAU::TABLEAU(int t, const bool *init_tableau) {
             this->tableau[y][x] = init_tableau[y * n + x];
         }
     }
-    this->taille = t;
-}
-
-bool TABLEAU::get(int x, int y) {
-    return this->tableau[y][x];
-}
-
-void TABLEAU::set(int x, int y, bool val) {
-    this->tableau[y][x] = val;
 }
 
 void TABLEAU::print_tab() {

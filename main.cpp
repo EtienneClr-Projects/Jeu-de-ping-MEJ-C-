@@ -14,7 +14,14 @@
  * 4x4 : 10     solutions   :     0.s
  * 5x5 : 0      solution    :     0.s
  * 6x6 : 1      solution    :     s
- * 7x7 : 0      solution    :     s
+ * 7x7 : 0      solution    :     630s (& 992s en FLAG -O2)
+ */
+
+/* With FLAG -O3. sans get et set. release mode
+ * 4x4 : 10     solutions   :     0.s
+ * 5x5 : 0      solution    :     0.s
+ * 6x6 : 1      solution    :     s
+ * 7x7 : 0      solution    :     500s
  */
 
 using std::chrono::milliseconds;
@@ -66,12 +73,17 @@ int main() {
 
         //creation du tableau et appel à l'algorithme
         TABLEAU firstTab(n, &grille[0][0]);
-        cout << "Branche " << i<<"\n";
+        cout << "Branche " << i << "\t";
+        for (int j = 0; j < n; ++j) {
+            cout << grille[0][j] << " ";
+        }
+        cout << "\n";
         i++;
         algorithme(firstTab, 1);
         auto now = std::chrono::duration_cast<milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
-        cout << "    FIN : " << now - start << "ms      SOLUTIONS TROUVEES : " << to_string(get_solutions_resolues().size()) << "\n";
+        cout << "    FIN : " << now - start << "ms      TOTAL SOLUTIONS TROUVEES : "
+             << to_string(get_solutions_resolues().size()) << "\n";
         start = now;
     }
 

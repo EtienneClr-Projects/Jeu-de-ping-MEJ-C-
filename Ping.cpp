@@ -55,7 +55,7 @@ vector<TABLEAU> get_solutions_resolues() {
 bool are_tabs_equal(TABLEAU tab1, TABLEAU tab2) {
     for (int x = 0; x < n; x++) {
         for (int y = 0; y < n; y++) {
-            if (tab1.get(x, y) != tab2.get(x, y)) {
+            if (tab1.tableau[y][x] != tab2.tableau[y][x]) {
                 return false;
             }
         }
@@ -109,7 +109,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
         // si on a déjà cliqué à tous les endroits où y'a des demandes, on s'arrête
         int somme = 0;
         for (int i = 0; i < n; i++) {
-            somme += ((tableau.get(i, indice_ligne_en_cours) + 1) % 2) * demandes_sur_cette_ligne[i];
+            somme += ((tableau.tableau[indice_ligne_en_cours][i] + 1) % 2) * demandes_sur_cette_ligne[i];
         }
         if (somme == 0) {
             free(demandes_sur_cette_ligne);
@@ -121,11 +121,10 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
             if (nb_demandes_max == 1) {
                 //si on a une demande maximale unique, on clique dessus et on lance un nouvel algo
                 int indice_to_clic = trouver_premier_index_de(val_max, demandes_sur_cette_ligne);
-                if (!tableau.get(indice_to_clic,
-                                 indice_ligne_en_cours)) {// et que l'on a pas encore cliqué à cet endroit
+                if (!tableau.tableau[indice_ligne_en_cours][indice_to_clic]) {// et que l'on a pas encore cliqué à cet endroit
 //                    cout << "demande unique, on clique en " << indice_to_clic << " " << indice_ligne_en_cours << "\n";
 //                    TABLEAU newTab(n, tableau.get_tab());
-                    tableau.set(indice_to_clic, indice_ligne_en_cours, true);
+                    tableau.tableau[indice_ligne_en_cours][indice_to_clic] = true;
                     algorithme(tableau, indice_ligne_en_cours);
                     free(demandes_sur_cette_ligne);
                     return;
@@ -134,12 +133,12 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
                 // si on a plusieurs demandes maximales, on relance l'algo sur chaque demande_sur_cette_ligne
 //                cout << "plusieurs demandes max\n";
                 for (int i = 0; i < n; i++) {
-                    if (demandes_sur_cette_ligne[i] != 0 and tableau.get(i, indice_ligne_en_cours) == 0) {
+                    if (demandes_sur_cette_ligne[i] != 0 and tableau.tableau[indice_ligne_en_cours][i] == 0) {
 //                        cout << "on relance l'algo sur " << i << " " << indice_ligne_en_cours << "\n";
 //                        tableau.print_tab();
                         TABLEAU newTab(n, tableau.get_tab());
 //                        cout << "TEST\n";
-                        newTab.set(i, indice_ligne_en_cours, true);
+                        newTab.tableau[indice_ligne_en_cours][i] = true;
                         algorithme(newTab, indice_ligne_en_cours);
                     }
                 }

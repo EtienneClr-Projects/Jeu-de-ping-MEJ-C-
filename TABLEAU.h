@@ -6,25 +6,15 @@
 
 #include <vector>
 
-#define n 7 //doit être >2
+#define n 6 //doit être >2
 using namespace std;
 
 class TABLEAU {
 
-    int compter_demandes_pour(int x, int y);
-
+public:
     bool tableau[n][n]{};
 
-    int taille;
-public:
-
     void print_tab();
-
-    void set(int x, int y, bool val);
-
-    bool get(int x, int y);
-
-//    void set_copy_tab(vector<vector<bool>> copied_tab);
 
     bool *get_tab();
 
@@ -33,6 +23,8 @@ public:
     TABLEAU(int t, const bool *init_tableau);
 
     bool verif_impair_cases_autour(int x, int y);
+
+    int compter_demandes_pour(int x, int y);
 };
 
 
