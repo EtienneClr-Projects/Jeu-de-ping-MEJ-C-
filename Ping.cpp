@@ -7,11 +7,11 @@
 #include <cmath>
 
 int nombre_de_resolus = 0;
+
 vector<TABLEAU> solutions_resolues;
 
 std::vector<std::vector<bool>> generate_sol_init() {
     std::vector<std::vector<bool>> combs;// = {{false,false}, {true, false}};
-
 
     for (unsigned long iComb = 0; iComb < pow(2, n); iComb++) {
 
@@ -27,7 +27,7 @@ std::vector<std::vector<bool>> generate_sol_init() {
         bool combsContainsComb = false;
         for (auto &comb_: combs) {
             bool equal = true;
-            for (int j = 0; j < n; j++) {
+            for (int j = n;j--;) {
                 if (comb_.at(j) != combReversed.at(j)) {
                     equal = false;
                 }
@@ -53,8 +53,8 @@ vector<TABLEAU> get_solutions_resolues() {
 }
 
 bool are_tabs_equal(TABLEAU tab1, TABLEAU tab2) {
-    for (int x = 0; x < n; x++) {
-        for (int y = 0; y < n; y++) {
+    for (int x = n; x--;) {
+        for (int y = n; y--;) {
             if (tab1.tableau[y][x] != tab2.tableau[y][x]) {
                 return false;
             }
@@ -66,7 +66,7 @@ bool are_tabs_equal(TABLEAU tab1, TABLEAU tab2) {
 
 int max_liste(const int *list) {
     int max = 0;
-    for (int i = 0; i < n; i++) {
+    for (int i = n; i--;) {
         if (list[i] > max)
             max = list[i];
     }
@@ -75,7 +75,7 @@ int max_liste(const int *list) {
 
 int compter_nombre_de(const int *list, int value) {
     int nb = 0;
-    for (int i = 0; i < n; i++) {
+    for (int i = n; i--;) {
         if (list[i] == value)
             nb++;
     }
@@ -83,7 +83,7 @@ int compter_nombre_de(const int *list, int value) {
 }
 
 int trouver_premier_index_de(int value, const int *liste) {
-    for (int i = 0; i < n; i++) {
+    for (int i =n; i--;) {
         if (liste[i] == value) {
             return i;
         }
@@ -108,7 +108,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
 //        cout << "DEMANDES\n";
         // si on a déjà cliqué à tous les endroits où y'a des demandes, on s'arrête
         int somme = 0;
-        for (int i = 0; i < n; i++) {
+        for (int i = n; i--;) {
             somme += ((tableau.tableau[indice_ligne_en_cours][i] + 1) % 2) * demandes_sur_cette_ligne[i];
         }
         if (somme == 0) {
@@ -132,7 +132,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
             } else {
                 // si on a plusieurs demandes maximales, on relance l'algo sur chaque demande_sur_cette_ligne
 //                cout << "plusieurs demandes max\n";
-                for (int i = 0; i < n; i++) {
+                for (int i = n; i--;) {
                     if (demandes_sur_cette_ligne[i] != 0 and tableau.tableau[indice_ligne_en_cours][i] == 0) {
 //                        cout << "on relance l'algo sur " << i << " " << indice_ligne_en_cours << "\n";
 //                        tableau.print_tab();
@@ -150,7 +150,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
 //        cout << "PLUS DE DEMANDES\n";
         if (indice_ligne_en_cours == n - 1) {//si on est a la dernière ligne
             int total_pas_ok_ligne_du_bas = 0;
-            for (int m = 0; m < n; ++m) {
+            for (int m = n; m--;) {
                 if (tableau.verif_impair_cases_autour(m, n - 1))
                     total_pas_ok_ligne_du_bas++;
             }

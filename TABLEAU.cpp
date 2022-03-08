@@ -8,8 +8,8 @@
 using namespace std;
 
 TABLEAU::TABLEAU(int t, const bool *init_tableau) {
-    for (int y = 0; y < n; ++y) {
-        for (int x = 0; x < n; ++x) {
+    for (int y = n; y--;) {
+        for (int x = n; x--;) {
             this->tableau[y][x] = init_tableau[y * n + x];
         }
     }
@@ -74,7 +74,7 @@ int TABLEAU::compter_demandes_pour(int x, int y) {
 
 int *TABLEAU::compter_demandes_pour_ligne(int y) {
     int *demandes_sur_la_ligne = (int *) malloc(n * sizeof(int));
-    for (int x = 0; x < n; ++x) {
+    for (int x = n; x--;) {
         demandes_sur_la_ligne[x] = compter_demandes_pour(x, y);
     }
     return demandes_sur_la_ligne;

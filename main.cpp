@@ -21,7 +21,14 @@
  * 4x4 : 10     solutions   :     0.s
  * 5x5 : 0      solution    :     0.s
  * 6x6 : 1      solution    :     s
- * 7x7 : 0      solution    :     500s
+ * 7x7 : 0      solution    :     470s-500s
+ */
+
+/* With FLAG -O3. avec optimized for. release mode
+ * 4x4 : 10     solutions   :     0.02s
+ * 5x5 : 0      solution    :     0.052s
+ * 6x6 : 1      solution    :     4.24s
+ * 7x7 : 0      solution    :     463s
  */
 
 using std::chrono::milliseconds;
@@ -56,18 +63,21 @@ int main() {
     auto start = std::chrono::duration_cast<milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     auto first_start = start;
     int i = 0;
+    bool grille[n][n];
+    for (auto &y: grille) {
+        for (bool &x: y) {
+            x = false;
+        }
+    }
 
     for (vector<bool> solution: solutions_init) {
 //    vector<bool> solution = {true, false, false, false, false,
 //                             true};//6x6 cette solution,12s pour 1/36 on a 3200 générations qui donnent la solution..comment réduire?
 
-        bool grille[n][n];
-        for (int y = 0; y < n; ++y) {
-            for (int x = 0; x < n; ++x) {
+        for (int y = n; y--;) {
+            for (int x = n; x--;) {
                 if (y == 0)
-                    grille[y][x] = solution[y * n + x];
-                else
-                    grille[y][x] = false;
+                    grille[0][x] = solution[y * n + x];
             }
         }
 
