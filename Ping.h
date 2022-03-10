@@ -12,7 +12,9 @@
 using namespace std;
 std::vector<std::vector<bool>> generate_sol_init();
 
-void algorithme(TABLEAU tableau, int indice_ligne_en_cours);
+unsigned long long get_compte_des_possibilites();
+
+void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentation);
 
 int max_liste(vector<int> list);
 

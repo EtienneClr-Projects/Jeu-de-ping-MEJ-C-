@@ -1,6 +1,5 @@
 #include <iostream>
 #include "Ping.h"
-#include <ctime>
 #include <chrono>
 
 /* With FLAG -O3. tout en vecteurs je crois. release mode
@@ -25,10 +24,11 @@
  */
 
 /* With FLAG -O3. avec optimized for. release mode
- * 4x4 : 10     solutions   :     0.02s
- * 5x5 : 0      solution    :     0.052s
- * 6x6 : 1      solution    :     4.24s
- * 7x7 : 0      solution    :     463s
+ * 4x4 : 10     solutions   :     0.02s     solutions parcourues    :   626         pour 65.536             soit 4.3131e-05  s/poss
+ * 5x5 : 0      solution    :     0.052s    solutions parcourues    :   27.853      pour 33.554.432         soit 4.55965e-06 s/poss
+ * 6x6 : 1      solution    :     4.24s     solutions parcourues    :   22.132.254  pour 68.719.476.736     soit 1.69572e-07 s/poss
+ * 7x7 : 0      solution    :     463-s     solutions parcourues    :               pour 5.6294995e+14
+ * pour un 6x6 on parcoure seulement 0.03% des possibilités
  */
 
 using std::chrono::milliseconds;
@@ -36,7 +36,7 @@ using std::chrono::milliseconds;
 vector<TABLEAU> suppr_doublons(const vector<TABLEAU> &tabs);
 
 int main() {
-    //todo TESTS ONLY
+//todo TESTS ONLY
 //
 //    vector<bool> init_ligne(n, false);
 //    vector<vector<bool>> grille(n, init_ligne);
@@ -83,17 +83,21 @@ int main() {
 
         //creation du tableau et appel à l'algorithme
         TABLEAU firstTab(n, &grille[0][0]);
-        cout << "Branche " << i << "\t";
+        cout << "##################################################################"<<endl;
+        cout << "##################################################################"<<endl;
+        cout << "BRANCHE INITIALE : " << i << "\t";
         for (int j = 0; j < n; ++j) {
-            cout << grille[0][j] << " ";
+            cout << solution[j] << " ";
         }
-        cout << "\n";
+        cout << endl;
+        firstTab.print_tab(1);
         i++;
-        algorithme(firstTab, 1);
+        algorithme(firstTab, 1, 0);
         auto now = std::chrono::duration_cast<milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
-        cout << "    FIN : " << now - start << "ms      TOTAL SOLUTIONS TROUVEES : "
-             << to_string(get_solutions_resolues().size()) << "\n";
+        cout << "\tFIN : " << now - start << "ms \t TOTAL SOLUTIONS TROUVEES : "
+             << to_string(get_solutions_resolues().size()) << "\t possibilites parcourues depuis le debut : "
+             << get_compte_des_possibilites() << "\n";
         start = now;
     }
 
@@ -106,13 +110,20 @@ int main() {
 //    TABLEAU newTab(n, firstTab.get_tab());
 //    newTab.print_tab();
     for (TABLEAU tab: solutions_resolues_sans_doublons) {
-        tab.print_tab();
+        tab.print_tab(0);
         cout << "\n";
     }//TODO @ETIENNE LES DERNIERES MODIFS MARCHENT PAS ! TESTER EN LANCANT LE 4X4
 
     cout << "get_nombre_de_resolus()" << " : " << solutions_resolues_sans_doublons.size() << " pour "
          << solutions_init.size() << "\n";
     cout << "temps total : " << (end - first_start) / 1000.0 << "s\n";
+    cout << get_compte_des_possibilites() << " possibilites parcourues\n";
+    cout << "temps moyen par possibilite :" << ((end - first_start) / 1000.0) / get_compte_des_possibilites() << "\n";
+
+    do {
+        cout << '\n' << "Press a key to continue...";
+    } while (cin.get() != '\n');
+
     return 0;
 }
 

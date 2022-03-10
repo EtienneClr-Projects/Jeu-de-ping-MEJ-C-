@@ -6,9 +6,12 @@
 #include "Ping.h"
 #include <cmath>
 
-int nombre_de_resolus = 0;
+long nombre_de_resolus = 0;
+unsigned long long compte_des_possibilites = 0;
 
 vector<TABLEAU> solutions_resolues;
+
+void indent_print(int niveau_indentation);
 
 std::vector<std::vector<bool>> generate_sol_init() {
     std::vector<std::vector<bool>> combs;// = {{false,false}, {true, false}};
@@ -27,7 +30,7 @@ std::vector<std::vector<bool>> generate_sol_init() {
         bool combsContainsComb = false;
         for (auto &comb_: combs) {
             bool equal = true;
-            for (int j = n;j--;) {
+            for (int j = n; j--;) {
                 if (comb_.at(j) != combReversed.at(j)) {
                     equal = false;
                 }
@@ -83,7 +86,7 @@ int compter_nombre_de(const int *list, int value) {
 }
 
 int trouver_premier_index_de(int value, const int *liste) {
-    for (int i =n; i--;) {
+    for (int i = n; i--;) {
         if (liste[i] == value) {
             return i;
         }
@@ -91,15 +94,14 @@ int trouver_premier_index_de(int value, const int *liste) {
     return -1;
 }
 
-void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
+void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentation) {
+    compte_des_possibilites++;
+    if (!(compte_des_possibilites % 1000000000))
+        cout << "compte_des_possibilites" << "\t: " << compte_des_possibilites << "\n";
 //    cout << "on commence en " << indice_ligne_en_cours << "pointeur du tab= " << &tableau << "\n";
     //on calcule les demandes pour la ligne actuelle
 //    tableau.print_tab();
     int *demandes_sur_cette_ligne = tableau.compter_demandes_pour_ligne(indice_ligne_en_cours);
-//    cout << "demandes sur ligne actuelle ";
-//    for (int i = 0; i < n; ++i) {
-//        cout << demandes_sur_cette_ligne[i] << " ";
-//    }
     int val_max = max_liste(demandes_sur_cette_ligne);
 //    cout << "\nmax : " << val_max << "\n";
     //si y'a des demandes
@@ -113,7 +115,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
         }
         if (somme == 0) {
             free(demandes_sur_cette_ligne);
-//            cout << "on a deja clique partout\n";
+            cout << "on a deja clique partout\n";
             return; //on a déjà cliqué a tous les endroits possibles
         } else {// on a pas encore satisfait toutes les demandes_sur_cette_ligne
             int nb_demandes_max = compter_nombre_de(demandes_sur_cette_ligne, val_max);
@@ -122,24 +124,32 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
                 //si on a une demande maximale unique, on clique dessus et on lance un nouvel algo
                 int indice_to_clic = trouver_premier_index_de(val_max, demandes_sur_cette_ligne);
                 if (!tableau.tableau[indice_ligne_en_cours][indice_to_clic]) {// et que l'on a pas encore cliqué à cet endroit
-//                    cout << "demande unique, on clique en " << indice_to_clic << " " << indice_ligne_en_cours << "\n";
+                    indent_print(niveau_indentation+1);
+                    cout << "demande unique, on clique en " << indice_to_clic << " " << indice_ligne_en_cours << "\n";
 //                    TABLEAU newTab(n, tableau.get_tab());
                     tableau.tableau[indice_ligne_en_cours][indice_to_clic] = true;
-                    algorithme(tableau, indice_ligne_en_cours);
+                    tableau.print_tab(niveau_indentation+1);
+                    algorithme(tableau, indice_ligne_en_cours, niveau_indentation);
                     free(demandes_sur_cette_ligne);
                     return;
                 }
             } else {
                 // si on a plusieurs demandes maximales, on relance l'algo sur chaque demande_sur_cette_ligne
-//                cout << "plusieurs demandes max\n";
+                indent_print(niveau_indentation+1);
+                cout << "plusieurs demandes max\n";
+                int iBranche=0;//todo tests only
                 for (int i = n; i--;) {
                     if (demandes_sur_cette_ligne[i] != 0 and tableau.tableau[indice_ligne_en_cours][i] == 0) {
-//                        cout << "on relance l'algo sur " << i << " " << indice_ligne_en_cours << "\n";
+                        indent_print(niveau_indentation+1);
+                        cout << "on relance l'algo sur " << i << " " << indice_ligne_en_cours << "\n";
 //                        tableau.print_tab();
                         TABLEAU newTab(n, tableau.get_tab());
-//                        cout << "TEST\n";
                         newTab.tableau[indice_ligne_en_cours][i] = true;
-                        algorithme(newTab, indice_ligne_en_cours);
+                        indent_print(niveau_indentation+1);
+                        cout << "branche " << iBranche << endl;
+                        iBranche++;
+                        newTab.print_tab(niveau_indentation+1);
+                        algorithme(newTab, indice_ligne_en_cours, niveau_indentation + 1);
                     }
                 }
                 free(demandes_sur_cette_ligne);
@@ -157,22 +167,34 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours) {
             // si la dernière ligne est pas ok, on s'arrête, sinon on affiche le tableau final
             if (total_pas_ok_ligne_du_bas > 0) {//derniere ligne non complete
                 free(demandes_sur_cette_ligne);
+                cout << "NON RESOLVABLE\n";
                 return;
             } else {//derniere ligne complete
-//                cout << "RESOLVAAAABLE\n";
+                cout << "RESOLVAAAABLE\n";
                 nombre_de_resolus++;
                 solutions_resolues.push_back(tableau);
                 free(demandes_sur_cette_ligne);
                 return;
             }
         } else {//sinon on passe à la ligne suivante
-//            cout << "on passe à la ligne suivante\n";
-            algorithme(tableau, indice_ligne_en_cours + 1);
+            indent_print(niveau_indentation+1);
+            cout << "on passe a la ligne suivante\n";
+            algorithme(tableau, indice_ligne_en_cours + 1, niveau_indentation);
             free(demandes_sur_cette_ligne);
             return;
         }
     }
 
 
+}
+
+void indent_print(int niveau_indentation) {
+    for (int iIndentation = 0; iIndentation < niveau_indentation; iIndentation++) {
+        cout << "|   ";
+    }
+}
+
+long long unsigned get_compte_des_possibilites() {
+    return compte_des_possibilites;
 }
 

@@ -15,15 +15,17 @@ TABLEAU::TABLEAU(int t, const bool *init_tableau) {
     }
 }
 
-void TABLEAU::print_tab() {
+void TABLEAU::print_tab(int niveau_indentation) {
     for (auto & y : this->tableau) {
         string contenu_ligne;
         for (bool x : y) {
             contenu_ligne += to_string(x) + " ";
         }
+        for (int iIndentation = 0; iIndentation < niveau_indentation; iIndentation++) {
+            cout << "|   ";
+        }
         cout << contenu_ligne << endl;
     }
-    cout << &this->tableau << "\n";
 }
 
 //void TABLEAU::set_copy_tab(vector<vector<bool>> copied_tab) {

@@ -6,7 +6,7 @@
 
 #include <vector>
 
-#define n 7 //doit être >2
+#define n 3 //doit être >2
 using namespace std;
 
 class TABLEAU {
@@ -14,7 +14,7 @@ class TABLEAU {
 public:
     bool tableau[n][n]{};
 
-    void print_tab();
+    void print_tab(int niveau_indentation);
 
     bool *get_tab();
 
