@@ -18,7 +18,7 @@ public:
 
     bool *get_tab();
 
-    int *compter_demandes_pour_ligne(int y);
+    int *compter_demandes_pour_ligne_non_cliquees(int y);
 
     TABLEAU(int t, const bool *init_tableau);
 

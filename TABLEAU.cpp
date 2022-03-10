@@ -16,9 +16,9 @@ TABLEAU::TABLEAU(int t, const bool *init_tableau) {
 }
 
 void TABLEAU::print_tab(int niveau_indentation) {
-    for (auto & y : this->tableau) {
+    for (auto &y: this->tableau) {
         string contenu_ligne;
-        for (bool x : y) {
+        for (bool x: y) {
             contenu_ligne += to_string(x) + " ";
         }
         for (int iIndentation = 0; iIndentation < niveau_indentation; iIndentation++) {
@@ -32,7 +32,7 @@ void TABLEAU::print_tab(int niveau_indentation) {
 //    this->tableau = std::move(copied_tab);
 //}
 
-bool * TABLEAU::get_tab() {
+bool *TABLEAU::get_tab() {
     return &this->tableau[0][0];
 }
 
@@ -74,11 +74,10 @@ int TABLEAU::compter_demandes_pour(int x, int y) {
     return total;
 }
 
-int *TABLEAU::compter_demandes_pour_ligne(int y) {
+int *TABLEAU::compter_demandes_pour_ligne_non_cliquees(int y) {
     int *demandes_sur_la_ligne = (int *) malloc(n * sizeof(int));
-    for (int x = n; x--;) {
-        demandes_sur_la_ligne[x] = compter_demandes_pour(x, y);
-    }
+    for (int x = n; x--;)
+        demandes_sur_la_ligne[x] = !this->tableau[y][x] * compter_demandes_pour(x, y);
     return demandes_sur_la_ligne;
 }
 

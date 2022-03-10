@@ -42,7 +42,7 @@ int main() {
 //    vector<vector<bool>> grille(n, init_ligne);
 //    TABLEAU testTab(n, grille);
 //    testTab.print_tab();
-////    int *dem = testTab.compter_demandes_pour_ligne(1);
+////    int *dem = testTab.compter_demandes_pour_ligne_non_cliquees(1);
 ////    for (int i = 0; i < n; ++i) {
 ////        if (i == 4)
 ////            dem[i] = 9;
