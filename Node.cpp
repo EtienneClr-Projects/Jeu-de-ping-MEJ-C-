@@ -18,6 +18,7 @@ int max_liste(const int *list) {
     }
     return max;
 }
+
 int compter_nombre_de(const int *list, int value) {
     int nb = 0;
     for (int i = n; i--;) {
@@ -26,6 +27,7 @@ int compter_nombre_de(const int *list, int value) {
     }
     return nb;
 }
+
 int trouver_premier_index_de(int value, const int *liste) {
     for (int i = n; i--;) {
         if (liste[i] == value) {
@@ -43,16 +45,27 @@ void Node::algorithme(Node *node_actuel, int indice_ligne_en_cours, int niveau_i
 //    cout << "on commence en " << indice_ligne_en_cours << "pointeur du tab= " << &tableau << "\n";
     //on calcule les demandes pour la ligne actuelle, uniquement pour les cases qui ne sont pas cliquées
 //    tableau.print_tab();
-    int *demandes_sur_cette_ligne = node_actuel->tableau.compter_demandes_pour_ligne_non_cliquees(
-            indice_ligne_en_cours);
+    int *demandes_sur_cette_ligne = node_actuel->
+            tableau.compter_demandes_pour_ligne_non_cliquees(indice_ligne_en_cours);
+    indent_print(niveau_indentation + 1);
+    cout << "DEMANDES :" << endl;
+    indent_print(niveau_indentation + 1);
+    for (int i = 0; i < n; ++i) {
+        cout << demandes_sur_cette_ligne[i] << " ";
+    }
+    cout << endl;
+
     int val_max = max_liste(demandes_sur_cette_ligne);
-//    cout << "\nmax : " << val_max << "\n";
+    indent_print(niveau_indentation + 1);
+    cout << "max : " << val_max << "  ligne: " << indice_ligne_en_cours << "\n";
     //si y'a des demandes
 
     if (val_max > 0) {
         // si on a déjà cliqué à tous les endroits où y'a des demandes, on s'arrête
         int somme = 0;
         for (int i = n; i--;) {
+            //il faut que l'emplacement du tableau soit a 0 et qu'il y ait une demande à cet endroit
+            //todo on peut pas dire que demandes_sur_cette_ligne=ce resultat ?
             somme += ((node_actuel->tableau.tableau[indice_ligne_en_cours][i] + 1) % 2) * demandes_sur_cette_ligne[i];
         }
         if (somme == 0) {
@@ -79,9 +92,14 @@ void Node::algorithme(Node *node_actuel, int indice_ligne_en_cours, int niveau_i
 //                    TABLEAU newTab(n, tableau.get_tab());
                     node_actuel->tableau.tableau[indice_ligne_en_cours][indice_to_clic] = true;
                     node_actuel->tableau.print_tab(niveau_indentation + 1);
-                    algorithme(node_actuel, indice_ligne_en_cours, niveau_indentation);
+                    TABLEAU newTab(node_actuel->tableau.get_tab());
+                    Node *newNode = new Node(newTab, 1);//todo pas besoin du newNode?
+                    algorithme(newNode, indice_ligne_en_cours, niveau_indentation);
                     free(demandes_sur_cette_ligne);
                     return;
+                }
+                else {
+                    //todo le else !!
                 }
             } else {
                 // si on a plusieurs demandes maximales, on relance l'algo sur chaque demande_sur_cette_ligne
@@ -112,7 +130,7 @@ void Node::algorithme(Node *node_actuel, int indice_ligne_en_cours, int niveau_i
             int total_pas_ok_ligne_du_bas = 0;
             for (int m = n; m--;) {
                 if (node_actuel->tableau.verif_impair_cases_autour(m, n - 1))
-                    total_pas_ok_ligne_du_bas++;
+                    total_pas_ok_ligne_du_bas++;//todo on peut ajouter un break après ca pour opti
             }
             // si la dernière ligne est pas ok, on s'arrête, sinon on affiche le tableau final
             if (total_pas_ok_ligne_du_bas > 0) {//derniere ligne non complete
@@ -131,7 +149,10 @@ void Node::algorithme(Node *node_actuel, int indice_ligne_en_cours, int niveau_i
         } else {//sinon on passe à la ligne suivante
             indent_print(niveau_indentation + 1);
             cout << "on passe a la ligne suivante\n";
-            algorithme(node_actuel, indice_ligne_en_cours + 1, niveau_indentation);
+            TABLEAU newTab(node_actuel->tableau.get_tab());
+            Node *newNode = new Node(newTab, 1);
+//todo j'ai mis un newNode, il faut ?
+            algorithme(newNode, indice_ligne_en_cours + 1, niveau_indentation);
             free(demandes_sur_cette_ligne);
             return;
         }

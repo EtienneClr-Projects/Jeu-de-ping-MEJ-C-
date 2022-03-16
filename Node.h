@@ -18,13 +18,12 @@ using namespace std;
 
 class Node {
 public:
-
     Node(TABLEAU tab, int t) : tableau(tab), type(t) {};
-
-    int type; //0 : origine, 1 : noeud, 2 : feuille
-    TABLEAU tableau = TABLEAU(nullptr);
-
     void algorithme(Node *node_actuel, int indice_ligne_en_cours, int niveau_indentation);
+
+private:
+    int type=0; //0 : origine, 1 : noeud, 2 : feuille
+    TABLEAU tableau = TABLEAU(nullptr);
 
 };
 #endif //JEUDEPINGMEJ_NODE_H
