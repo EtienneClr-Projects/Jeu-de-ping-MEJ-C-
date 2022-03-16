@@ -1,13 +1,11 @@
 //
 // Created by etienne on 04/03/2022.
 //
-#include <iostream>
 #include "TABLEAU.h"
-#include <vector>
 
 using namespace std;
 
-TABLEAU::TABLEAU(int t, const bool *init_tableau) {
+TABLEAU::TABLEAU(const bool *init_tableau) {
     for (int y = n; y--;) {
         for (int x = n; x--;) {
             this->tableau[y][x] = init_tableau[y * n + x];

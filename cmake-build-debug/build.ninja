@@ -78,6 +78,12 @@ build CMakeFiles/JeuDePingMEJ.dir/TABLEAU.cpp.obj: CXX_COMPILER__JeuDePingMEJ_De
   OBJECT_DIR = CMakeFiles\JeuDePingMEJ.dir
   OBJECT_FILE_DIR = CMakeFiles\JeuDePingMEJ.dir
 
+build CMakeFiles/JeuDePingMEJ.dir/Node.cpp.obj: CXX_COMPILER__JeuDePingMEJ_Debug C$:/Users/etienne/CLionProjects/JeuDePingMEJ/Node.cpp || cmake_object_order_depends_target_JeuDePingMEJ
+  DEP_FILE = CMakeFiles\JeuDePingMEJ.dir\Node.cpp.obj.d
+  FLAGS = -g -std=gnu++14
+  OBJECT_DIR = CMakeFiles\JeuDePingMEJ.dir
+  OBJECT_FILE_DIR = CMakeFiles\JeuDePingMEJ.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target JeuDePingMEJ
@@ -86,7 +92,7 @@ build CMakeFiles/JeuDePingMEJ.dir/TABLEAU.cpp.obj: CXX_COMPILER__JeuDePingMEJ_De
 #############################################
 # Link the executable JeuDePingMEJ.exe
 
-build JeuDePingMEJ.exe: CXX_EXECUTABLE_LINKER__JeuDePingMEJ_Debug CMakeFiles/JeuDePingMEJ.dir/main.cpp.obj CMakeFiles/JeuDePingMEJ.dir/Ping.cpp.obj CMakeFiles/JeuDePingMEJ.dir/TABLEAU.cpp.obj
+build JeuDePingMEJ.exe: CXX_EXECUTABLE_LINKER__JeuDePingMEJ_Debug CMakeFiles/JeuDePingMEJ.dir/main.cpp.obj CMakeFiles/JeuDePingMEJ.dir/Ping.cpp.obj CMakeFiles/JeuDePingMEJ.dir/TABLEAU.cpp.obj CMakeFiles/JeuDePingMEJ.dir/Node.cpp.obj
   FLAGS = -g
   LINK_FLAGS = -static
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

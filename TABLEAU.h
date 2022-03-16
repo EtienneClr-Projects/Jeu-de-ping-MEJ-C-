@@ -5,9 +5,11 @@
 #define JEUDEPINGMEJ_TABLEAU_H
 
 #include <vector>
+#include <iostream>
+#include "Ping.h"
 
-#define n 3 //doit être >2
 using namespace std;
+#define n 4 //doit etre >2
 
 class TABLEAU {
 
@@ -20,7 +22,7 @@ public:
 
     int *compter_demandes_pour_ligne_non_cliquees(int y);
 
-    TABLEAU(int t, const bool *init_tableau);
+    explicit TABLEAU(const bool *init_tableau);
 
     bool verif_impair_cases_autour(int x, int y);
 

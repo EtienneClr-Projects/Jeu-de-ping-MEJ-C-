@@ -7,4 +7,4 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
 
 
 set(SOURCE_FILES main.cpp)
-add_executable(JeuDePingMEJ main.cpp Ping.cpp Ping.h TABLEAU.cpp TABLEAU.h)
+add_executable(JeuDePingMEJ main.cpp Ping.cpp Ping.h TABLEAU.cpp TABLEAU.h Node.cpp Node.h)

@@ -1,6 +1,7 @@
-#include <iostream>
-#include "Ping.h"
+#include "Node.h"
 #include <chrono>
+#include <cmath>
+#include <algorithm>
 
 /* With FLAG -O3. tout en vecteurs je crois. release mode
  * 4x4 : 10     solutions   :     0.009s
@@ -34,6 +35,11 @@
 using std::chrono::milliseconds;
 
 vector<TABLEAU> suppr_doublons(const vector<TABLEAU> &tabs);
+std::vector<std::vector<bool>> generate_sol_init();
+
+bool are_tabs_equal(TABLEAU tab1,TABLEAU tab2);
+
+void indent_print(int niveau_indentation);
 
 int main() {
 //todo TESTS ONLY
@@ -82,9 +88,9 @@ int main() {
         }
 
         //creation du tableau et appel à l'algorithme
-        TABLEAU firstTab(n, &grille[0][0]);
-        cout << "##################################################################"<<endl;
-        cout << "##################################################################"<<endl;
+        TABLEAU firstTab(&grille[0][0]);
+        cout << "##################################################################" << endl;
+        cout << "##################################################################" << endl;
         cout << "BRANCHE INITIALE : " << i << "\t";
         for (int j = 0; j < n; ++j) {
             cout << solution[j] << " ";
@@ -92,19 +98,19 @@ int main() {
         cout << endl;
         firstTab.print_tab(1);
         i++;
-        algorithme(firstTab, 1, 0);
+        Node *firstNode = new Node(firstTab, 0);
+        firstNode->algorithme(firstNode, 1, 0);
         auto now = std::chrono::duration_cast<milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
         cout << "\tFIN : " << now - start << "ms \t TOTAL SOLUTIONS TROUVEES : "
-             << to_string(get_solutions_resolues().size()) << "\t possibilites parcourues depuis le debut : "
-             << get_compte_des_possibilites() << "\n";
+             << to_string(solutions_resolues.size()) << "\t possibilites parcourues depuis le debut : "
+             << compte_des_possibilites << "\n";
         start = now;
     }
 
     auto end = std::chrono::duration_cast<milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
-    vector<TABLEAU> solutions_resolues = get_solutions_resolues();
-    vector<TABLEAU> solutions_resolues_sans_doublons = suppr_doublons(solutions_resolues);
+    solutions_resolues_sans_doublons = suppr_doublons(solutions_resolues);
 
 //    firstTab.print_tab();
 //    TABLEAU newTab(n, firstTab.get_tab());
@@ -112,13 +118,13 @@ int main() {
     for (TABLEAU tab: solutions_resolues_sans_doublons) {
         tab.print_tab(0);
         cout << "\n";
-    }//TODO @ETIENNE LES DERNIERES MODIFS MARCHENT PAS ! TESTER EN LANCANT LE 4X4
+    }
 
-    cout << "get_nombre_de_resolus()" << " : " << solutions_resolues_sans_doublons.size() << " pour "
+    cout << "nombre de resolus" << " : " << solutions_resolues_sans_doublons.size() << " pour "
          << solutions_init.size() << "\n";
     cout << "temps total : " << (end - first_start) / 1000.0 << "s\n";
-    cout << get_compte_des_possibilites() << " possibilites parcourues\n";
-    cout << "temps moyen par possibilite :" << ((end - first_start) / 1000.0) / get_compte_des_possibilites() << "\n";
+    cout << compte_des_possibilites << " possibilites parcourues\n";
+    cout << "temps moyen par possibilite :" << ((end - first_start) / 1000.0) / compte_des_possibilites << "\n";
 
     do {
         cout << '\n' << "Press a key to continue...";
@@ -143,3 +149,51 @@ vector<TABLEAU> suppr_doublons(const vector<TABLEAU> &tabs) {
     }
     return sans_doublons;
 }
+
+
+
+std::vector<std::vector<bool>> generate_sol_init() {
+    std::vector<std::vector<bool>> combs;// = {{false,false}, {true, false}};
+
+    for (unsigned long iComb = 0; iComb < pow(2, n); iComb++) {
+
+        std::vector<bool> comb;
+        comb.reserve(n);
+        for (int iPos = 0; iPos < n; iPos++) {
+            comb.push_back(iComb >> iPos & 1);
+        }
+
+        std::vector<bool> combReversed;
+        combReversed.resize(n);
+        reverse_copy(comb.begin(), comb.end(), combReversed.begin());
+        bool combsContainsComb = false;
+        for (auto &comb_: combs) {
+            bool equal = true;
+            for (int j = n; j--;) {
+                if (comb_.at(j) != combReversed.at(j)) {
+                    equal = false;
+                }
+            }
+            if (equal) {
+                combsContainsComb = true;
+            }
+        }
+        if (!combsContainsComb) {
+            combs.push_back(comb);
+        }
+
+    }
+    return combs;
+}
+
+bool are_tabs_equal(TABLEAU tab1, TABLEAU tab2) {
+    for (int x = n; x--;) {
+        for (int y = n; y--;) {
+            if (tab1.tableau[y][x] != tab2.tableau[y][x]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
