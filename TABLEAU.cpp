@@ -10,13 +10,13 @@ using namespace std;
 TABLEAU::TABLEAU(int t, const bool *init_tableau) {
     for (int y = n; y--;) {
         for (int x = n; x--;) {
-            this->tableau[y][x] = init_tableau[y * n + x];
+            this->tab[y][x] = init_tableau[y * n + x];
         }
     }
 }
 
 void TABLEAU::print_tab(int niveau_indentation) {
-    for (auto &y: this->tableau) {
+    for (auto &y: this->tab) {
         string contenu_ligne;
         for (bool x: y) {
             contenu_ligne += to_string(x) + " ";
@@ -29,11 +29,11 @@ void TABLEAU::print_tab(int niveau_indentation) {
 }
 
 //void TABLEAU::set_copy_tab(vector<vector<bool>> copied_tab) {
-//    this->tableau = std::move(copied_tab);
+//    this->tab = std::move(copied_tab);
 //}
 
 bool *TABLEAU::get_tab() {
-    return &this->tableau[0][0];
+    return &this->tab[0][0];
 }
 
 /**
@@ -46,22 +46,22 @@ bool TABLEAU::verif_impair_cases_autour(int x, int y) {
     int total = 0;
     if (x > 0) {
         if (y > 0)
-            total += int(this->tableau[y - 1][x - 1]);
-        total += int(this->tableau[y][x - 1]);
+            total += int(this->tab[y - 1][x - 1]);
+        total += int(this->tab[y][x - 1]);
         if (y < n - 1)
-            total += int(this->tableau[y + 1][x - 1]);
+            total += int(this->tab[y + 1][x - 1]);
     }
     if (x < n - 1) {
         if (y > 0)
-            total += int(this->tableau[y - 1][x + 1]);
-        total += int(this->tableau[y][x + 1]);
+            total += int(this->tab[y - 1][x + 1]);
+        total += int(this->tab[y][x + 1]);
         if (y < n - 1)
-            total += int(this->tableau[y + 1][x + 1]);
+            total += int(this->tab[y + 1][x + 1]);
     }
     if (y > 0)
-        total += int(this->tableau[y - 1][x]);
+        total += int(this->tab[y - 1][x]);
     if (y < n - 1)
-        total += int(this->tableau[y + 1][x]);
+        total += int(this->tab[y + 1][x]);
 
     return total % 2 == 0;
 }
@@ -77,7 +77,7 @@ int TABLEAU::compter_demandes_pour(int x, int y) {
 int *TABLEAU::compter_demandes_pour_ligne_non_cliquees(int y) {
     int *demandes_sur_la_ligne = (int *) malloc(n * sizeof(int));
     for (int x = n; x--;)
-        demandes_sur_la_ligne[x] = !this->tableau[y][x] * compter_demandes_pour(x, y);
+        demandes_sur_la_ligne[x] = !this->tab[y][x] * compter_demandes_pour(x, y);
     return demandes_sur_la_ligne;
 }
 

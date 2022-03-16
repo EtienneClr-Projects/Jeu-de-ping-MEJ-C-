@@ -12,7 +12,7 @@ using namespace std;
 class TABLEAU {
 
 public:
-    bool tableau[n][n]{};
+    bool tab[n][n]{};
 
     void print_tab(int niveau_indentation);
 

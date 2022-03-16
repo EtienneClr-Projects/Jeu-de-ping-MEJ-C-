@@ -81,7 +81,7 @@ int main() {
             }
         }
 
-        //creation du tableau et appel à l'algorithme
+        //creation du tab et appel à l'algorithme
         TABLEAU firstTab(n, &grille[0][0]);
         cout << "##################################################################"<<endl;
         cout << "##################################################################"<<endl;
