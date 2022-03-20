@@ -6,7 +6,7 @@
 
 #include <vector>
 
-#define n 3 //doit être >2
+#define n 4 //doit être >2
 using namespace std;
 
 class TABLEAU {
@@ -18,7 +18,7 @@ public:
 
     bool *get_tab();
 
-    int *compter_demandes_pour_ligne_non_cliquees(int y);
+    int *compter_demandes_pour_ligne(int y);
 
     TABLEAU(int t, const bool *init_tableau);
 
