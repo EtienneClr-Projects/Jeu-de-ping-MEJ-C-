@@ -106,9 +106,8 @@ int trouver_premier_index_de(int value, const int *liste) {
 }
 
 void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentation, bool est_symetrique) {
-    compte_des_possibilites++;
-    indent_print(niveau_indentation + 1);
-    cout << "--> nouveau appel a algo" << "\t: " << compte_des_possibilites << "\n";
+//    indent_print(niveau_indentation + 1);
+//    cout << "--> nouveau appel a algo" << "\t: " << compte_des_possibilites << "\n";
 //    cout << "on commence en " << indice_ligne_en_cours << "pointeur du tab= " << &tableau << "\n";
     //on calcule les demandes pour la ligne actuelle, uniquement pour les cases qui ne sont pas cliquées
 //    tableau.print_tab();
@@ -125,7 +124,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
         }
         if (somme == 0) {
             free(demandes_sur_cette_ligne);
-            cout << "on a deja clique partout\n";
+//            cout << "on a deja clique partout\n";
             return; //on a déjà cliqué a tous les endroits possibles
         } else {// on a pas encore satisfait toutes les demandes_sur_cette_ligne
             int nb_demandes_max = compter_nombre_de(demandes_sur_cette_ligne, val_max);
@@ -142,28 +141,28 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
                 //si on a une demande maximale unique, on clique dessus et on lance un nouvel algo
                 int indice_to_clic = trouver_premier_index_de(val_max, demandes_sur_cette_ligne);
                 if (!tableau.tableau[indice_ligne_en_cours][indice_to_clic]) {// et que l'on a pas encore cliqué à cet endroit
-                    indent_print(niveau_indentation + 1);
-                    cout << "demande unique, on clique en " << indice_to_clic << " " << indice_ligne_en_cours << "\n";
+//                    indent_print(niveau_indentation + 1);
+//                    cout << "demande unique, on clique en " << indice_to_clic << " " << indice_ligne_en_cours << "\n";
 //                    TABLEAU newTab(n, tableau.get_tab());
                     tableau.tableau[indice_ligne_en_cours][indice_to_clic] = true;
-                    tableau.print_tab(niveau_indentation + 1);
+//                    tableau.print_tab(niveau_indentation + 1);
                     algorithme(tableau, indice_ligne_en_cours, niveau_indentation, est_symetrique);
                     free(demandes_sur_cette_ligne);
                     return;
                 } else {//todo on fait qqc ?
-                    indent_print(niveau_indentation + 1);
-                    cout << "demande unique deja pourvue" << endl;
+//                    indent_print(niveau_indentation + 1);
+//                    cout << "demande unique deja pourvue" << endl;
                     free(demandes_sur_cette_ligne);
                     return;
                 }
             } else {
                 // si on a plusieurs demandes maximales, on relance l'algo sur chaque demande_sur_cette_ligne
-                indent_print(niveau_indentation + 1);
-                cout << "plusieurs demandes max a : " << val_max << "\n";
+//                indent_print(niveau_indentation + 1);
+//                cout << "plusieurs demandes max a : " << val_max << "\n";
                 int iBranche = 0;//todo tests only
                 //pour les symetries on choisit le nombre d'élements à parcourir, si on est symétriques, on parcourt que la moitié du tableau !!
                 int t;
-                cout << "est_symetrique pour tests" << "\t: " << est_symetrique << "\n";
+//                cout << "est_symetrique pour tests" << "\t: " << est_symetrique << "\n";
                 if (est_symetrique)
                     t = n / 2;
                 else
@@ -175,11 +174,11 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
                     if (demandes_sur_cette_ligne[i] != 0 and tableau.tableau[indice_ligne_en_cours][i] == 0) {
                         TABLEAU newTab(n, tableau.get_tab());
                         newTab.tableau[indice_ligne_en_cours][i] = true;
-                        indent_print(niveau_indentation + 1);
-                        cout << "branche " << iBranche << " " << &iBranche << " ";
-                        cout << "on relance l'algo sur " << i << " " << indice_ligne_en_cours << "\n";
+//                        indent_print(niveau_indentation + 1);
+//                        cout << "branche " << iBranche << " " << &iBranche << " ";
+//                        cout << "on relance l'algo sur " << i << " " << indice_ligne_en_cours << "\n";
                         iBranche++;
-                        newTab.print_tab(niveau_indentation + 1);
+//                        newTab.print_tab(niveau_indentation + 1);
                         algorithme(newTab, indice_ligne_en_cours, niveau_indentation + 1, false);
                     }
                 }
@@ -198,23 +197,25 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
             // si la dernière ligne est pas ok, on s'arrête, sinon on affiche le tableau final
             if (total_pas_ok_ligne_du_bas > 0) {//derniere ligne non complete
                 free(demandes_sur_cette_ligne);
-                indent_print(niveau_indentation + 1);
-                cout << "NON RESOLVABLE\n";
+//                indent_print(niveau_indentation + 1);
+//                cout << "NON RESOLVABLE\n";
+                compte_des_possibilites++;
                 return;
             } else {//derniere ligne complete
-                indent_print(niveau_indentation + 1);
-                cout << "RESOLVAAAABLE\n";
+//                indent_print(niveau_indentation + 1);
+//                cout << "RESOLVAAAABLE\n";
+                compte_des_possibilites++;
                 nombre_de_resolus++;
                 solutions_resolues.push_back(tableau);
                 free(demandes_sur_cette_ligne);
                 return;
             }
         } else {//sinon on passe à la ligne suivante
-            indent_print(niveau_indentation + 1);
-            cout << "on passe a la ligne suivante\n";
+//            indent_print(niveau_indentation + 1);
+//            cout << "on passe a la ligne suivante\n";
             est_symetrique = check_symetric(tableau.tableau[indice_ligne_en_cours]);
 
-            cout << "est_symetrique" << "\t: " << est_symetrique << "\n";
+//            cout << "est_symetrique" << "\t: " << est_symetrique << "\n";
             algorithme(tableau, indice_ligne_en_cours + 1, niveau_indentation, est_symetrique);
             free(demandes_sur_cette_ligne);
             return;

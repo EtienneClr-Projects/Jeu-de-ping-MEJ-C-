@@ -107,14 +107,14 @@ int main() {
 
         //creation du tableau et appel à l'algorithme
         TABLEAU firstTab(n, &grille[0][0]);
-        cout << "##################################################################" << endl;
-        cout << "##################################################################" << endl;
+//        cout << "##################################################################" << endl;
+//        cout << "##################################################################" << endl;
         cout << "BRANCHE INITIALE : " << i << "\t";
         for (int j = 0; j < n; ++j) {
             cout << solution[j] << " ";
         }
         cout << endl;
-        firstTab.print_tab(1);
+//        firstTab.print_tab(1);
         i++;
         algorithme(firstTab, 1, 0, check_symetric(solution));
         auto now = std::chrono::duration_cast<milliseconds>(
