@@ -14,7 +14,7 @@ std::vector<std::vector<bool>> generate_sol_init();
 
 unsigned long long get_compte_des_possibilites();
 
-void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentation);
+void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentation, bool est_symetrique);
 
 int max_liste(vector<int> list);
 

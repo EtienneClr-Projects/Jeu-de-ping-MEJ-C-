@@ -31,9 +31,33 @@
  * pour un 6x6 on parcoure seulement 0.03% des possibilités
  */
 
+/* With FLAG -O3. release mode. avec réduction des symétries
+ * 4x4 : 10     solutions   :     s     solutions parcourues    :            pour 65.536             soit 4.3131e-05  s/poss
+ * 5x5 : 0      solution    :         solutions parcourues    :         pour 33.554.432         soit 4.55965e-06 s/poss
+ * 6x6 : 1      solution    :          solutions parcourues    :     pour 68.719.476.736     soit 1.69572e-07 s/poss
+ * 7x7 : 0      solution    :     s     solutions parcourues    :               pour 5.6294995e+14
+ * pour un 6x6 on parcoure seulement 0.03% des possibilités
+ */
+
 using std::chrono::milliseconds;
 
 vector<TABLEAU> suppr_doublons(const vector<TABLEAU> &tabs);
+
+bool check_symetric(const vector<bool>& arr) {
+    // Loop till array size n/2.
+    for (int i = 0; i <= n / 2; i++) {
+        // Check if first and last element are different
+        if (arr.at(i) != arr.at(n - i - 1)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+//int main() {
+//    bool tab[6] = {0, 1, 1, 0, 1, 0};
+//    cout << check_symetric(tab) << endl;
+//}
 
 int main() {
 //todo TESTS ONLY
@@ -83,8 +107,8 @@ int main() {
 
         //creation du tableau et appel à l'algorithme
         TABLEAU firstTab(n, &grille[0][0]);
-        cout << "##################################################################"<<endl;
-        cout << "##################################################################"<<endl;
+        cout << "##################################################################" << endl;
+        cout << "##################################################################" << endl;
         cout << "BRANCHE INITIALE : " << i << "\t";
         for (int j = 0; j < n; ++j) {
             cout << solution[j] << " ";
@@ -92,7 +116,7 @@ int main() {
         cout << endl;
         firstTab.print_tab(1);
         i++;
-        algorithme(firstTab, 1, 0);
+        algorithme(firstTab, 1, 0, check_symetric(solution));
         auto now = std::chrono::duration_cast<milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
         cout << "\tFIN : " << now - start << "ms \t TOTAL SOLUTIONS TROUVEES : "
@@ -112,7 +136,7 @@ int main() {
     for (TABLEAU tab: solutions_resolues_sans_doublons) {
         tab.print_tab(0);
         cout << "\n";
-    }//TODO @ETIENNE LES DERNIERES MODIFS MARCHENT PAS ! TESTER EN LANCANT LE 4X4
+    }
 
     cout << "get_nombre_de_resolus()" << " : " << solutions_resolues_sans_doublons.size() << " pour "
          << solutions_init.size() << "\n";
@@ -143,3 +167,4 @@ vector<TABLEAU> suppr_doublons(const vector<TABLEAU> &tabs) {
     }
     return sans_doublons;
 }
+

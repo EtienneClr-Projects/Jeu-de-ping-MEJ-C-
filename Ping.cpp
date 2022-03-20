@@ -13,6 +13,17 @@ vector<TABLEAU> solutions_resolues;
 
 void indent_print(int niveau_indentation);
 
+bool check_symetric(const bool *arr) {
+    // Loop till array size n/2.
+    for (int i = 0; i < n / 2; i++) {
+        // Check if first and last element are different
+        if (arr[i] != arr[n - i - 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 std::vector<std::vector<bool>> generate_sol_init() {
     std::vector<std::vector<bool>> combs;// = {{false,false}, {true, false}};
 
@@ -94,7 +105,7 @@ int trouver_premier_index_de(int value, const int *liste) {
     return -1;
 }
 
-void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentation) {
+void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentation, bool est_symetrique) {
     compte_des_possibilites++;
     indent_print(niveau_indentation + 1);
     cout << "--> nouveau appel a algo" << "\t: " << compte_des_possibilites << "\n";
@@ -136,7 +147,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
 //                    TABLEAU newTab(n, tableau.get_tab());
                     tableau.tableau[indice_ligne_en_cours][indice_to_clic] = true;
                     tableau.print_tab(niveau_indentation + 1);
-                    algorithme(tableau, indice_ligne_en_cours, niveau_indentation);
+                    algorithme(tableau, indice_ligne_en_cours, niveau_indentation, est_symetrique);
                     free(demandes_sur_cette_ligne);
                     return;
                 } else {//todo on fait qqc ?
@@ -150,7 +161,15 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
                 indent_print(niveau_indentation + 1);
                 cout << "plusieurs demandes max a : " << val_max << "\n";
                 int iBranche = 0;//todo tests only
-                for (int i = n; i--;) {
+                //pour les symetries on choisit le nombre d'élements à parcourir, si on est symétriques, on parcourt que la moitié du tableau !!
+                int t;
+                cout << "est_symetrique pour tests" << "\t: " << est_symetrique << "\n";
+                if (est_symetrique)
+                    t = n / 2;
+                else
+                    t = n - 1;
+//                for (int i = n; i--;) {
+                for (int i = 0; i <= t; i++) {
                     //todo faire les symétries. on passe un booléen estSymétrique que l'on calcule à chaque nouvelle ligne
                     // pour chaque nouveau clic aussi. et en fonction dans ce for on clique pas partout
                     if (demandes_sur_cette_ligne[i] != 0 and tableau.tableau[indice_ligne_en_cours][i] == 0) {
@@ -161,7 +180,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
                         cout << "on relance l'algo sur " << i << " " << indice_ligne_en_cours << "\n";
                         iBranche++;
                         newTab.print_tab(niveau_indentation + 1);
-                        algorithme(newTab, indice_ligne_en_cours, niveau_indentation + 1);
+                        algorithme(newTab, indice_ligne_en_cours, niveau_indentation + 1, false);
                     }
                 }
                 free(demandes_sur_cette_ligne);
@@ -193,7 +212,10 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
         } else {//sinon on passe à la ligne suivante
             indent_print(niveau_indentation + 1);
             cout << "on passe a la ligne suivante\n";
-            algorithme(tableau, indice_ligne_en_cours + 1, niveau_indentation);
+            est_symetrique = check_symetric(tableau.tableau[indice_ligne_en_cours]);
+
+            cout << "est_symetrique" << "\t: " << est_symetrique << "\n";
+            algorithme(tableau, indice_ligne_en_cours + 1, niveau_indentation, est_symetrique);
             free(demandes_sur_cette_ligne);
             return;
         }

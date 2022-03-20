@@ -6,7 +6,7 @@
 
 #include <vector>
 
-#define n 3 //doit être >2
+#define n 5 //doit être >2
 using namespace std;
 
 class TABLEAU {
