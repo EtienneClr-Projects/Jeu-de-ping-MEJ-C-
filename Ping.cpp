@@ -139,6 +139,11 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
                     algorithme(tableau, indice_ligne_en_cours, niveau_indentation);
                     free(demandes_sur_cette_ligne);
                     return;
+                } else {//todo on fait qqc ?
+                    indent_print(niveau_indentation + 1);
+                    cout << "demande unique deja pourvue" << endl;
+                    free(demandes_sur_cette_ligne);
+                    return;
                 }
             } else {
                 // si on a plusieurs demandes maximales, on relance l'algo sur chaque demande_sur_cette_ligne
@@ -146,6 +151,8 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
                 cout << "plusieurs demandes max a : " << val_max << "\n";
                 int iBranche = 0;//todo tests only
                 for (int i = n; i--;) {
+                    //todo faire les symétries. on passe un booléen estSymétrique que l'on calcule à chaque nouvelle ligne
+                    // pour chaque nouveau clic aussi. et en fonction dans ce for on clique pas partout
                     if (demandes_sur_cette_ligne[i] != 0 and tableau.tableau[indice_ligne_en_cours][i] == 0) {
                         TABLEAU newTab(n, tableau.get_tab());
                         newTab.tableau[indice_ligne_en_cours][i] = true;
