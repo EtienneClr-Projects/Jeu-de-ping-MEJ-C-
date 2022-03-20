@@ -101,7 +101,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
 //    cout << "on commence en " << indice_ligne_en_cours << "pointeur du tab= " << &tableau << "\n";
     //on calcule les demandes pour la ligne actuelle, uniquement pour les cases qui ne sont pas cliquées
 //    tableau.print_tab();
-    int *demandes_sur_cette_ligne = tableau.compter_demandes_pour_ligne_non_cliquees(indice_ligne_en_cours);
+    int *demandes_sur_cette_ligne = tableau.compter_demandes_pour_ligne(indice_ligne_en_cours);
     int val_max = max_liste(demandes_sur_cette_ligne);
 //    cout << "\nmax : " << val_max << "\n";
     //si y'a des demandes
