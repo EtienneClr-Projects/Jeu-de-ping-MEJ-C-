@@ -36,7 +36,7 @@
  * 5x5 : 0      solution    :         solutions parcourues    :         pour 33.554.432         soit 4.55965e-06 s/poss
  * 6x6 : 1      solution    :          solutions parcourues    :     pour 68.719.476.736     soit 1.69572e-07 s/poss
  * 7x7 : 0      solution    :     s     solutions parcourues    :               pour 5.6294995e+14
- * pour un 6x6 on parcoure seulement 0.03% des possibilités
+ * pour un 6x6 on parcoure seulement . des possibilités
  */
 
 using std::chrono::milliseconds;

@@ -164,7 +164,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
                 int t;
 //                cout << "est_symetrique pour tests" << "\t: " << est_symetrique << "\n";
                 if (est_symetrique)
-                    t = n / 2;
+                    t = ceil(n / 2) - 1;
                 else
                     t = n - 1;
 //                for (int i = n; i--;) {
