@@ -6,7 +6,12 @@
 
 #include <vector>
 
-#define n 3 //doit être >2
+#define n 12 //doit être >2
+#define SYM_VERT  0
+#define SYM_DIAG  1
+#define SYM_ROTT  1//todo plus tard
+#define SYM_NONE  -1
+
 using namespace std;
 
 class TABLEAU {

@@ -10,11 +10,11 @@
 #include "TABLEAU.h"
 
 using namespace std;
-std::vector<std::vector<bool>> generate_sol_init();
+std::vector<std::vector<bool>> generate_sol_init(int sym_type);
 
 unsigned long long get_compte_des_possibilites();
 
-void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentation);
+void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentation, int sym_type);
 
 int max_liste(vector<int> list);
 

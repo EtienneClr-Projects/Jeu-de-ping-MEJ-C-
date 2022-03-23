@@ -31,33 +31,18 @@
  * pour un 6x6 on parcoure seulement 0.03% des possibilités
  */
 
+
+
 using std::chrono::milliseconds;
 
 vector<TABLEAU> suppr_doublons(const vector<TABLEAU> &tabs);
 
 int main() {
-//todo TESTS ONLY
-//
-//    vector<bool> init_ligne(n, false);
-//    vector<vector<bool>> grille(n, init_ligne);
-//    TABLEAU testTab(n, grille);
-//    testTab.print_tab();
-////    int *dem = testTab.compter_demandes_pour_ligne(1);
-////    for (int i = 0; i < n; ++i) {
-////        if (i == 4)
-////            dem[i] = 9;
-////        cout << dem[i] << "\n";
-////    }
-////    cout << "max = " << max_liste(dem) << "\n";
-////    cout << "firstInd = " << trouver_premier_index_de(3, dem) << "\n";
-////    cout << "compter = " << compter_nombre_de(dem, 2) << "\n";
-//    TABLEAU newTab(n,testTab.get_tab());
-//    newTab.print_tab();
-//    return 0;
-
-    //initialisation de la premiere solution
-//    vector<bool> solution_test = {false, true, true, true};
-    vector<vector<bool>> solutions_init = generate_sol_init();
+    int sym_type = SYM_VERT;
+    vector<vector<bool>> solutions_init = generate_sol_init(sym_type);
+//    vector<vector<bool>> solutions_init;
+//    vector<bool> a = {0, 1, 1, 0, 0, 1, 1, 0};
+//    solutions_init.push_back(a);
     cout << solutions_init.size() << " BRANCHES DE DEPART\n";
 
     auto start = std::chrono::duration_cast<milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
@@ -71,28 +56,25 @@ int main() {
     }
 
     for (vector<bool> solution: solutions_init) {
-//    vector<bool> solution = {true, false, false, false, false,
-//                             true};//6x6 cette solution,12s pour 1/36 on a 3200 générations qui donnent la solution..comment réduire?
-
-        for (int y = n; y--;) {
-            for (int x = n; x--;) {
-                if (y == 0)
-                    grille[0][x] = solution[y * n + x];
-            }
+        for (int x = n; x--;) {
+            grille[0][x] = solution[x];
+            if (grille[0][x] && sym_type == SYM_DIAG)
+                grille[x][0] = true;
         }
+
 
         //creation du tableau et appel à l'algorithme
         TABLEAU firstTab(n, &grille[0][0]);
-        cout << "##################################################################"<<endl;
-        cout << "##################################################################"<<endl;
+//    cout << "##################################################################" << endl;
+//    cout << "##################################################################" << endl;
         cout << "BRANCHE INITIALE : " << i << "\t";
         for (int j = 0; j < n; ++j) {
             cout << solution[j] << " ";
         }
         cout << endl;
-        firstTab.print_tab(1);
+//    firstTab.print_tab(1);
         i++;
-        algorithme(firstTab, 1, 0);
+        algorithme(firstTab, 1, 0, sym_type);
         auto now = std::chrono::duration_cast<milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
         cout << "\tFIN : " << now - start << "ms \t TOTAL SOLUTIONS TROUVEES : "
@@ -109,20 +91,42 @@ int main() {
 //    firstTab.print_tab();
 //    TABLEAU newTab(n, firstTab.get_tab());
 //    newTab.print_tab();
-    for (TABLEAU tab: solutions_resolues_sans_doublons) {
+    for (
+        TABLEAU tab
+            : solutions_resolues_sans_doublons) {
         tab.print_tab(0);
         cout << "\n";
     }//TODO @ETIENNE LES DERNIERES MODIFS MARCHENT PAS ! TESTER EN LANCANT LE 4X4
 
-    cout << "get_nombre_de_resolus()" << " : " << solutions_resolues_sans_doublons.size() << " pour "
-         << solutions_init.size() << "\n";
+    cout << "get_nombre_de_resolus()" << " : " << solutions_resolues_sans_doublons.
+
+            size()
+
+         << " pour "
+         << solutions_init.
+
+                 size()
+
+         << "\n";
     cout << "temps total : " << (end - first_start) / 1000.0 << "s\n";
-    cout << get_compte_des_possibilites() << " possibilites parcourues\n";
-    cout << "temps moyen par possibilite :" << ((end - first_start) / 1000.0) / get_compte_des_possibilites() << "\n";
+    cout <<
+
+         get_compte_des_possibilites()
+
+         << " feuilles\n";
+    cout << "temps moyen par possibilite :" << ((end - first_start) / 1000.0) /
+
+                                               get_compte_des_possibilites()
+
+         << "\n";
 
     do {
         cout << '\n' << "Press a key to continue...";
-    } while (cin.get() != '\n');
+    } while (cin.
+
+            get()
+
+             != '\n');
 
     return 0;
 }
