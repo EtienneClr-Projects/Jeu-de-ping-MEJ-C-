@@ -15,7 +15,9 @@ TABLEAU::TABLEAU(int t, const bool *init_tableau) {
     }
 }
 
-void TABLEAU::print_tab(int niveau_indentation) {
+void TABLEAU::print_tab(int niveau_indentation, bool DO_PRINT) {
+    if (!DO_PRINT)
+        return;
     for (auto &y: this->tableau) {
         string contenu_ligne;
         for (bool x: y) {

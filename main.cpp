@@ -38,28 +38,35 @@ using std::chrono::milliseconds;
 vector<TABLEAU> suppr_doublons(const vector<TABLEAU> &tabs);
 
 int main() {
-    int sym_type = SYM_VERT;
+    int sym_type = SYM_QUAD;
+
     vector<vector<bool>> solutions_init = generate_sol_init(sym_type);
 //    vector<vector<bool>> solutions_init;
-//    vector<bool> a = {0, 1, 1, 0, 0, 1, 1, 0};
-//    solutions_init.push_back(a);
+//    vector<bool> a = {false, true, false, false, true, true, true, true, false, false, true, false};
     cout << solutions_init.size() << " BRANCHES DE DEPART\n";
 
     auto start = std::chrono::duration_cast<milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     auto first_start = start;
     int i = 0;
-    bool grille[n][n];
-    for (auto &y: grille) {
-        for (bool &x: y) {
-            x = false;
-        }
-    }
+
 
     for (vector<bool> solution: solutions_init) {
+        bool grille[n][n];
+        for (auto &y: grille) {
+            for (bool &x: y) {
+                x = false;
+            }
+        }
+
         for (int x = n; x--;) {
             grille[0][x] = solution[x];
             if (grille[0][x] && sym_type == SYM_DIAG)
                 grille[x][0] = true;
+            if (grille[0][x] && sym_type == SYM_QUAD) {
+                grille[x][0] = true;
+                grille[n - 1][x] = true;
+                grille[x][n - 1] = true;
+            }
         }
 
 
@@ -72,8 +79,8 @@ int main() {
             cout << solution[j] << " ";
         }
         cout << endl;
-//    firstTab.print_tab(1);
         i++;
+        firstTab.print_tab(1, false);
         algorithme(firstTab, 1, 0, sym_type);
         auto now = std::chrono::duration_cast<milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
@@ -88,15 +95,12 @@ int main() {
     vector<TABLEAU> solutions_resolues = get_solutions_resolues();
     vector<TABLEAU> solutions_resolues_sans_doublons = suppr_doublons(solutions_resolues);
 
-//    firstTab.print_tab();
-//    TABLEAU newTab(n, firstTab.get_tab());
-//    newTab.print_tab();
     for (
         TABLEAU tab
             : solutions_resolues_sans_doublons) {
-        tab.print_tab(0);
+        tab.print_tab(0, true);
         cout << "\n";
-    }//TODO @ETIENNE LES DERNIERES MODIFS MARCHENT PAS ! TESTER EN LANCANT LE 4X4
+    }
 
     cout << "get_nombre_de_resolus()" << " : " << solutions_resolues_sans_doublons.
 

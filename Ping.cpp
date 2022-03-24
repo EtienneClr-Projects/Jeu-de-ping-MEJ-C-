@@ -13,10 +13,12 @@ vector<TABLEAU> solutions_resolues;
 
 void indent_print(int niveau_indentation);
 
+void indent_print(string str, int niveau_indentation, bool DO_PRINT);
+
 std::vector<std::vector<bool>> generate_sol_init(int sym_type) {
     std::vector<std::vector<bool>> combs;// = {{false,false}, {true, false}};
     int largeur_tableau = n;
-    if (sym_type == SYM_VERT) {
+    if (sym_type == SYM_VERT || sym_type == SYM_QUAD) {
         largeur_tableau = ceil((float) n / 2);
     } else if (sym_type == SYM_DIAG) {
         largeur_tableau = n;
@@ -26,7 +28,7 @@ std::vector<std::vector<bool>> generate_sol_init(int sym_type) {
         std::vector<bool> comb;
         comb.reserve(n);
         for (int iPos = 0; iPos < n; iPos++) {
-            if (sym_type == SYM_VERT) {
+            if (sym_type == SYM_VERT || sym_type == SYM_QUAD) {
                 if (iPos < largeur_tableau) {
                     comb.push_back(iComb >> iPos & 1);
                 } else {
@@ -105,7 +107,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
         }
         if (somme == 0) {
             free(demandes_sur_cette_ligne);
-//            cout << "on a deja clique partout\n";
+            indent_print("on a deja clique partout", niveau_indentation + 1, false);
             compte_des_feuilles++;
             return; //on a déjà cliqué a tous les endroits possibles
         } else {// on a pas encore satisfait toutes les demandes_sur_cette_ligne
@@ -115,31 +117,34 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
                 //si on a une demande maximale unique, on clique dessus et on lance un nouvel algo
                 int indice_to_clic = trouver_premier_index_de(val_max, demandes_sur_cette_ligne);
                 if (!tableau.tableau[indice_ligne_en_cours][indice_to_clic]) {// et que l'on a pas encore cliqué à cet endroit
-//                    indent_print(niveau_indentation + 1);
-//                    cout << "demande unique, on clique en " << indice_to_clic << " " << indice_ligne_en_cours << "\n";
+                    indent_print("demande unique, on clique en " + to_string(indice_to_clic) + " " +
+                                 to_string(indice_ligne_en_cours), niveau_indentation + 1, false);
                     tableau.tableau[indice_ligne_en_cours][indice_to_clic] = true;
                     if (sym_type == SYM_DIAG) {
                         tableau.tableau[indice_to_clic][indice_ligne_en_cours] = true;
                     } else if (sym_type == SYM_VERT) {
                         tableau.tableau[indice_to_clic][n - indice_to_clic - 1] = true;
+                    } else if (sym_type == SYM_QUAD) {
+                        tableau.tableau[indice_to_clic][n - indice_to_clic - 1] = true;//à droite
+                        tableau.tableau[n - indice_to_clic - 1][indice_to_clic] = true;//en bas à gauche
+                        tableau.tableau[n - indice_to_clic - 1][n - indice_to_clic - 1] = true;//en bas à droite
                     }
-//                    tableau.print_tab(niveau_indentation + 1);
+
+                    tableau.print_tab(niveau_indentation + 1, false);
                     algorithme(tableau, indice_ligne_en_cours, niveau_indentation, sym_type);
                     free(demandes_sur_cette_ligne);
                     return;
                 } else {//todo on fait qqc ?
-//                    indent_print(niveau_indentation + 1);
-//                    cout << "demande unique deja pourvue" << endl;
+                    indent_print("demande unique deja pourvue", niveau_indentation + 1, false);
                     free(demandes_sur_cette_ligne);
                     return;
                 }
             } else {
                 // si on a plusieurs demandes maximales, on relance l'algo sur chaque demande_sur_cette_ligne
-//                indent_print(niveau_indentation + 1);
-//                cout << "plusieurs demandes max a : " << val_max << "\n";
+                indent_print("plusieurs demandes max a : " + to_string(val_max), niveau_indentation + 1, false);
                 int iBranche = 0;//todo tests only
                 int t, init;
-                if (sym_type == SYM_VERT) {
+                if (sym_type == SYM_VERT || sym_type == SYM_QUAD) {
                     t = ceil(n / 2) - 1;
                     init = 0;
                 } else if (sym_type == SYM_DIAG) {
@@ -157,12 +162,16 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
                             newTab.tableau[i][indice_ligne_en_cours] = true;
                         } else if (sym_type == SYM_VERT) {
                             newTab.tableau[indice_ligne_en_cours][n - i - 1] = true;
+                        } else if (sym_type == SYM_QUAD) {
+                            newTab.tableau[indice_ligne_en_cours][n - i - 1] = true;//à droite
+                            newTab.tableau[n - indice_ligne_en_cours - 1][i] = true;//en bas à gauche
+                            newTab.tableau[n - indice_ligne_en_cours - 1][n - i - 1] = true;//en bas à droite
                         }
-//                        indent_print(niveau_indentation + 1);
-//                        cout << "branche " << iBranche << " " << &iBranche << " ";
-//                        cout << "on relance l'algo sur " << i << " " << indice_ligne_en_cours << "\n";
+                        indent_print("branche " + to_string(iBranche), niveau_indentation + 1, false);
+                        indent_print("on relance l'algo sur " + to_string(i) + " " + to_string(indice_ligne_en_cours),
+                                     niveau_indentation + 1, false);
                         iBranche++;
-//                        newTab.print_tab(niveau_indentation + 1);
+                        newTab.print_tab(niveau_indentation + 1, false);
                         algorithme(newTab, indice_ligne_en_cours, niveau_indentation + 1, sym_type);
                     }
                 }
@@ -171,7 +180,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
             }
         }
     } else {//y'a plus de demandes
-//        cout << "PLUS DE DEMANDES\n";
+        indent_print("PLUS DE DEMANDES", niveau_indentation + 1, false);
         if (indice_ligne_en_cours == n - 1) {//si on est a la dernière ligne
             int total_pas_ok_ligne_du_bas = 0;
             for (int m = n; m--;) {
@@ -181,13 +190,11 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
             // si la dernière ligne est pas ok, on s'arrête, sinon on affiche le tableau final
             if (total_pas_ok_ligne_du_bas > 0) {//derniere ligne non complete
                 free(demandes_sur_cette_ligne);
-//                indent_print(niveau_indentation + 1);
-//                cout << "NON RESOLVABLE\n";
+                indent_print("NON RESOLVABLE", niveau_indentation + 1, false);
                 compte_des_feuilles++;
                 return;
             } else {//derniere ligne complete
-//                indent_print(niveau_indentation + 1);
-//                cout << "RESOLVAAAABLE\n";
+                indent_print("RESOLVAAAABLE", niveau_indentation + 1, false);
                 compte_des_feuilles++;
                 nombre_de_resolus++;
                 solutions_resolues.push_back(tableau);
@@ -195,8 +202,7 @@ void algorithme(TABLEAU tableau, int indice_ligne_en_cours, int niveau_indentati
                 return;
             }
         } else {//sinon on passe à la ligne suivante
-//            indent_print(niveau_indentation + 1);
-//            cout << "on passe a la ligne suivante\n";
+            indent_print("on passe a la ligne suivante", niveau_indentation + 1, false);
 
             algorithme(tableau, indice_ligne_en_cours + 1, niveau_indentation, sym_type);
             free(demandes_sur_cette_ligne);
@@ -211,6 +217,15 @@ void indent_print(int niveau_indentation) {
     for (int iIndentation = 0; iIndentation < niveau_indentation; iIndentation++) {
         cout << "|   ";
     }
+}
+
+void indent_print(string str, int niveau_indentation, bool DO_PRINT) {
+    if (!DO_PRINT)
+        return;
+    for (int iIndentation = 0; iIndentation < niveau_indentation; iIndentation++) {
+        cout << "|   ";
+    }
+    cout << str << "\n";
 }
 
 long long unsigned get_compte_des_possibilites() {

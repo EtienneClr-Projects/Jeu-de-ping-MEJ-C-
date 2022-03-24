@@ -7,10 +7,11 @@
 #include <vector>
 
 #define n 12 //doit être >2
-#define SYM_VERT  0
-#define SYM_DIAG  1
-#define SYM_ROTT  1//todo plus tard
-#define SYM_NONE  -1
+#define SYM_VERT 0
+#define SYM_DIAG 1
+#define SYM_QUAD 2
+#define SYM_ROTT 3//todo plus tard
+#define SYM_NONE -1
 
 using namespace std;
 
@@ -19,7 +20,7 @@ class TABLEAU {
 public:
     bool tableau[n][n]{};
 
-    void print_tab(int niveau_indentation);
+    void print_tab(int niveau_indentation, bool DO_PRINT);
 
     bool *get_tab();
 
